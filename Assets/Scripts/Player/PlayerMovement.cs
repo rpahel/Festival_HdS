@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     CharacterController PlayerController;
     public float speed = 0f;
+    private float gravity = 9.81f;
     public Transform mainCam;
 
     private void Start()
@@ -16,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        PlayerController.Move(movement * speed * Time.deltaTime);
-        mainCam.position = new Vector3(mainCam.position.x, transform.position.y, mainCam.position.z);
+        PlayerController.SimpleMove(movement);
+        mainCam.position = new Vector3(mainCam.position.x, transform.position.y + 0.7f, mainCam.position.z);
     }
 }
