@@ -7,8 +7,11 @@ public class UseAndReloadLamp : MonoBehaviour
 {
     public Slider lampStaminaBar;
     public Light lamp;
+
     public float speedStaminaDown;
     public float maxValueStamina;
+    public float valueReload;
+
     private float valueStamina;
     private bool isPressed = false;
 
@@ -49,6 +52,16 @@ public class UseAndReloadLamp : MonoBehaviour
         else
         {
             lampStaminaBar.value = valueStamina;
+        }
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.CompareTag("ReloadLampStamina"))
+        {
+            valueStamina += valueReload;
+            lampStaminaBar.value += valueReload;
+            Destroy(hit.gameObject);
         }
     }
 }
