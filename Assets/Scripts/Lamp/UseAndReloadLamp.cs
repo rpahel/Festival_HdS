@@ -14,6 +14,7 @@ public class UseAndReloadLamp : MonoBehaviour
 
     private float valueStamina;
     private bool isPressed = false;
+    private bool canBePressed = true;
 
     private void Start()
     {
@@ -29,17 +30,29 @@ public class UseAndReloadLamp : MonoBehaviour
 
     private void SwitchOnAndOff()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (canBePressed)
         {
-            isPressed = !isPressed;
+            if (Input.GetMouseButtonDown(1))
+            {
+                isPressed = !isPressed;
+            }
+            if (isPressed == true)
+            {
+                lamp.intensity = 0;
+            }
+            else
+            {
+                lamp.intensity = 20;
+            }
         }
-        if (isPressed == true)
+        if(lampStaminaBar.value <= 0)
         {
+            canBePressed = false;
             lamp.intensity = 0;
         }
         else
         {
-            lamp.intensity = 20;
+            canBePressed = true;
         }
     }
     private void StaminaManager()
