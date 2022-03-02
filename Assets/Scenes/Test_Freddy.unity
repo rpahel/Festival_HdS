@@ -1260,7 +1260,11 @@ PrefabInstance:
     - target: {fileID: 1216967796099934630, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
       propertyPath: mainCam
       value: 
-      objectReference: {fileID: 577887895}
+      objectReference: {fileID: 577887894}
+    - target: {fileID: 1216967796099934630, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
+      propertyPath: mouseSensibility
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 1216967796099934652, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
       propertyPath: m_Name
       value: Player

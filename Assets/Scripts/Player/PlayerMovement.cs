@@ -8,11 +8,14 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer srPlayer;
     public Light lampLight;
 
-    public Transform mainCam;
+    public Camera mainCam;
 
     public float speed = 0f;
     public float speedTurn = 0f;
+    public float mouseSensibility;
 
+    private Vector2 mousePos;
+    private float mouseY;
     private void Start()
     {
         PlayerController = GetComponent<CharacterController>();
@@ -23,10 +26,11 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         PlayerController.SimpleMove(movement);
-        mainCam.position = new Vector3(mainCam.position.x, transform.position.y + 0.7f, mainCam.position.z);
+        mainCam.transform.position = new Vector3(mainCam.transform.position.x, transform.position.y + 0.7f, mainCam.transform.position.z);
 
-        //lampLight.transform.rotation = Quaternion.Euler(Input.mousePosition.x, lampLight.transform.rotation.y, 90);
-        //lampLight.transform.LookAt(Input.mousePosition);
+        mouseY = Input.GetAxis("Mouse Y") * mouseSensibility * Time.deltaTime;
+        lampLight.transform.Rotate(Vector3.up * mouseY); 
+
         if(Input.GetAxis("Horizontal") < 0)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, -180, 0), Time.deltaTime * speedTurn);
