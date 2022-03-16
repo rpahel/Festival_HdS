@@ -30,6 +30,11 @@ public class AIController : MonoBehaviour
     bool m_IsPatrol;                                //  If the enemy is patrol, state of patroling
     bool m_CaughtPlayer;                            //  if the enemy has caught the player
 
+    [Header("Instantiate Stamina")]
+    private float nextActionTime = 0.0f;
+    public float period = 5f;
+    public GameObject stamina;
+
     void Start()
     {
         m_PlayerPosition = Vector3.zero;
@@ -59,6 +64,12 @@ public class AIController : MonoBehaviour
         else
         {
             Patroling();
+        }
+
+        if (Time.time > nextActionTime)
+        {
+            InstantiateStamina();
+            nextActionTime += period;
         }
     }
 
@@ -224,5 +235,10 @@ public class AIController : MonoBehaviour
                 m_PlayerPosition = player.transform.position;       //  Save the player's current position if the player is in range of vision
             }
         }
+    }
+
+    void InstantiateStamina()
+    {
+        Instantiate(stamina, transform.position, Quaternion.identity);
     }
 }
