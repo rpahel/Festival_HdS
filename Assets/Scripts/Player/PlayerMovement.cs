@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private GameObject candyClone;
 
     public Camera mainCam;
+    public float cameraYOffset;
 
     public float speed = 0f;
     public float speedTurn = 0f;
@@ -61,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
         // Move player
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         PlayerController.SimpleMove(movement);
-        mainCam.transform.position = new Vector3(mainCam.transform.position.x, transform.position.y + 0.7f, mainCam.transform.position.z);
+        mainCam.transform.position = new Vector3(mainCam.transform.position.x, transform.position.y + cameraYOffset, mainCam.transform.position.z);
     }
     private void TurningThePlayer()
     {
