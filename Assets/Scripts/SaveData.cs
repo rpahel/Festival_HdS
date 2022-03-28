@@ -2,34 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveData : MonoBehaviour // peut etre le mettre dans le gameManager
+[System.Serializable]
+public class SaveData
 {
-    public GameObject player;
+    public int m_Score;
 
-    void SavePlayerData(int dollCount, Vector3 playerPos, Dictionary<int, bool> dictionaryDoors) //on récup les data du player
+    public string ToJson()
     {
-        PlayerPrefs.SetInt("doll", dollCount);
-        PlayerPrefs.SetFloat("playerX", playerPos.x);
-        PlayerPrefs.SetFloat("playerY", playerPos.y);
-        PlayerPrefs.SetFloat("playerZ", playerPos.z);
-
-        foreach(var item in dictionaryDoors)
-        {
-            PlayerPrefs.SetString(item.Key.ToString(), item.Value.ToString());
-        }
-
-        PlayerPrefs.Save();
+        return JsonUtility.ToJson(this);
     }
 
-    void LoadSave()
+    public void LoadFromJson(string a_Json)
     {
-        var doll = PlayerPrefs.GetInt("doll");
-        var posX = PlayerPrefs.GetFloat("playerX");
-        var posY = PlayerPrefs.GetFloat("playerY");
-        var posZ = PlayerPrefs.GetFloat("playerZ");
+        JsonUtility.FromJsonOverwrite(a_Json, this);
+    }
 
-        //player.doll = doll;
-        player.transform.position = new Vector3(posX, posY, posZ);
+    public interface ISaveable
+    {   
+        void PopulateSaveData(SaveData a_SaveData);
+        void LoadFromSaveData(SaveData a_SaveData);
     }
 }
 
