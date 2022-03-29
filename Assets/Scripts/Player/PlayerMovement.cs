@@ -5,11 +5,13 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController PlayerController;
-    private SpriteRenderer srPlayer;
+    private LineRenderer lrTraj;
     public GameObject lampLight;
-
     public GameObject candy;
     private GameObject candyClone;
+
+    private Vector3 directionVelocity;
+    private Vector3 futurePos;
 
     public Camera mainCam;
     public float cameraYOffset;
@@ -17,15 +19,19 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 0f;
     public float speedTurn = 0f;
     public float rate;
+    public float timeSimulatingLr;
 
     private float previousInputLook;
     private float angle;
 
     private bool canThrow;
+
+    private List<Vector3> positionsPredicted = new List<Vector3>();
     private void Start()
     {
         PlayerController = GetComponent<CharacterController>();
-        srPlayer = GetComponent<SpriteRenderer>();
+        lrTraj = GetComponent<LineRenderer>();
+        lrTraj.startColor = Color.white;
         canThrow = true;
     }
 
@@ -47,14 +53,28 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.E))
         {
+            if (previousInputLook < 0)
+            {
+                directionVelocity = new Vector3(-2, 5, 0);
+            }
+            if (previousInputLook > 0)
+            {
+                directionVelocity = new Vector3(2, 5, 0);
+            }
+            positionsPredicted = PredictPositions();
+            lrTraj.positionCount = positionsPredicted.Count;
             // Debug the path of the candy
+            for(int i = 0; i < PredictPositions().Count; i++)
+            {
+                lrTraj.SetPosition(i, PredictPositions()[i]);
+            }
         }
 
         if (Input.GetKeyUp(KeyCode.E) && canThrow)
         {
             ThrowCandy();
+            lrTraj.positionCount = 0;
         }
-
     }
 
     private void MovePlayer()
@@ -100,17 +120,33 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector3 spawnPosition = new Vector3(transform.position.x - 0.2f, transform.position.y, transform.position.z);
             candyClone = Instantiate(candy, spawnPosition, Quaternion.identity);
-            candyClone.GetComponent<Rigidbody>().velocity = new Vector3(-2, 5, 0);
+            candyClone.GetComponent<Rigidbody>().velocity = directionVelocity;
         }
 
         if(previousInputLook > 0)
         {
             Vector3 spawnPosition = new Vector3(transform.position.x + 0.2f, transform.position.y, transform.position.z);
             candyClone = Instantiate(candy, spawnPosition, Quaternion.identity);
-            candyClone.GetComponent<Rigidbody>().velocity = new Vector3(2, 5, 0);
+            candyClone.GetComponent<Rigidbody>().velocity = directionVelocity;
         }
         Destroy(candyClone, 5f);
         StartCoroutine(Reloading());
+    }
+
+    private List<Vector3> PredictPositions()
+    {
+        float power = 5f;
+        float step = 0.1f;
+        int maxSteps = (int)(timeSimulatingLr / step);
+
+        List<Vector3> positions = new List<Vector3>();
+        for(int i = 0; i < maxSteps; i++)
+        {
+            futurePos = transform.position + (directionVelocity * (power * i * step));
+            //futurePos.y += -9.81f * (i * step);
+            positions.Add(futurePos);
+        }
+        return positions;
     }
 
     private IEnumerator Reloading()
