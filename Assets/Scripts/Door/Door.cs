@@ -12,13 +12,13 @@ public class Door : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        _animator.SetBool("isOpen", true);
         isOpen = true;
+        _animator.SetBool("isOpen", isOpen);
     }
 
-    private void OnTriggerExit(Collider2D other)
+    private void OnTriggerExit(Collider other)
     {
-        _animator.SetBool("isOpen", false);
         isOpen = false;
+        _animator.SetBool("isOpen", isOpen);
     }
 }
