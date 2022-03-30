@@ -57,6 +57,7 @@ public class Enemy : MonoBehaviour, ISaveable
 
     private void Start()
     {
+        m_CurrentHealth = m_MaxHealth;
         m_PlayerPosition = Vector3.zero;
         m_IsPatrol = true;
         m_CaughtPlayer = false;
@@ -262,6 +263,15 @@ public class Enemy : MonoBehaviour, ISaveable
         Instantiate(stamina, transform.position, Quaternion.identity);
     }
 
+    public void TakeDamage(int damage)
+    {
+        m_CurrentHealth -= damage;
+
+        if (m_CurrentHealth <= 0)
+        {
+            //Destroy(gameObject);
+        }
+    }
     public void PopulateSaveData(SaveData a_SaveData)
     {
         SaveData.EnemyData enemyData = new SaveData.EnemyData();
