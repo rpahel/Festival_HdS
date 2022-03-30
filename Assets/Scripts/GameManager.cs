@@ -31,10 +31,7 @@ public class GameManager : MonoBehaviour, ISaveable
 
     private void Start()
     {
-        LoadJsonData(this);
-        UpdateScore();
-        UpdatePlayerPos();
-        UpdateDoors();
+        LoadData();
     }
 
     private void UpdateScore()
@@ -62,8 +59,22 @@ public class GameManager : MonoBehaviour, ISaveable
     }
 
     //Saving and loading Data
+
+    public void SaveData()
+    {
+        _enemies = new List<Enemy>(FindObjectsOfType<Enemy>());
+        _doors = new List<GameObject>(GameObject.FindGameObjectsWithTag("Door"));
+        SaveJsonData(this);
+    }
+    public void LoadData()
+    {
+        LoadJsonData(this);
+        UpdateScore();
+        UpdatePlayerPos();
+        UpdateDoors();
+    }
     private static void SaveJsonData(GameManager a_GameManager)
-   {
+    {
         SaveData sd = new SaveData();
         a_GameManager.PopulateSaveData(sd);
 
@@ -126,8 +137,6 @@ public class GameManager : MonoBehaviour, ISaveable
     }
     private void OnApplicationQuit()
     {
-        _enemies = new List<Enemy>(FindObjectsOfType<Enemy>());
-        _doors = new List<GameObject>(GameObject.FindGameObjectsWithTag("Door"));
-        SaveJsonData(this);
+        SaveData();
     }
 }
