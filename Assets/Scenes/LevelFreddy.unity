@@ -1588,10 +1588,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1942277289}
     - target: {fileID: 8974002996900609674, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974002996900609674, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
       propertyPath: lampStaminaBar
       value: 
       objectReference: {fileID: 1588098532}
@@ -1638,18 +1634,6 @@ PrefabInstance:
     - target: {fileID: 8974002996900609679, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974002997103245942, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974002997103245942, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974002997103245942, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
-      propertyPath: m_Color.r
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}

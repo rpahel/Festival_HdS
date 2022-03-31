@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     private GameObject candyClone;
 
     private Vector3 directionVelocity;
-    private Vector3 futurePos;
 
     public Camera mainCam;
     public float cameraYOffset;
@@ -23,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float previousInputLook;
     private float angle;
+    private const float gravity = -9.81f;
 
     private bool canThrow;
 
@@ -31,7 +31,6 @@ public class PlayerMovement : MonoBehaviour
     {
         PlayerController = GetComponent<CharacterController>();
         lrTraj = GetComponent<LineRenderer>();
-        lrTraj.startColor = Color.white;
         canThrow = true;
     }
 
@@ -51,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
             previousInputLook = Input.GetAxis("Horizontal");
         }
 
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.E) && canThrow)
         {
             if (previousInputLook < 0)
             {
@@ -63,6 +62,8 @@ public class PlayerMovement : MonoBehaviour
             }
             positionsPredicted = PredictPositions();
             lrTraj.positionCount = positionsPredicted.Count;
+            lrTraj.startColor = Color.blue;
+            lrTraj.endColor = Color.white;
             // Debug the path of the candy
             for(int i = 0; i < PredictPositions().Count; i++)
             {
@@ -135,16 +136,17 @@ public class PlayerMovement : MonoBehaviour
 
     private List<Vector3> PredictPositions()
     {
-        float power = 5f;
         float step = 0.1f;
         int maxSteps = (int)(timeSimulatingLr / step);
 
         List<Vector3> positions = new List<Vector3>();
         for(int i = 0; i < maxSteps; i++)
         {
-            futurePos = transform.position + (directionVelocity * (power * i * step));
-            //futurePos.y += -9.81f * (i * step);
-            positions.Add(futurePos);
+            float simulationTime = i / (float)maxSteps;
+            Vector3 displacement = directionVelocity * simulationTime + Vector3.up * gravity * simulationTime * simulationTime / 2f;
+            Vector3 drawPoint = transform.position + displacement;
+            displacement.z = transform.position.z;
+            positions.Add(drawPoint);
         }
         return positions;
     }
