@@ -130,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
             candyClone = Instantiate(candy, spawnPosition, Quaternion.identity);
             candyClone.GetComponent<Rigidbody>().velocity = directionVelocity;
         }
-        Destroy(candyClone, 5f);
+        //Destroy(candyClone, 5f);
         StartCoroutine(Reloading());
     }
 

@@ -11,7 +11,7 @@ public class CandyBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             triggerBox.GetComponent<BoxCollider>().enabled = true;
-            StartCoroutine(RemoveFromParent());
+            //StartCoroutine(RemoveFromParent());
         }
     }
 
