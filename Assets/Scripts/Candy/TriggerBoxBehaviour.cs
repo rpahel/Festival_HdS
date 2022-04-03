@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class TriggerBoxBehaviour : MonoBehaviour
 {
-    private float timer, alpha;
+    public float distanceFromCandy;
+    public float speed = 0.2f;
+
     private bool isMoving = false;
+
     private GameObject gameObjectCollision;
+
     public AnimationCurve animCurve;
 
     private void OnTriggerEnter(Collider collision)
@@ -20,13 +24,15 @@ public class TriggerBoxBehaviour : MonoBehaviour
 
     private void Update()
     {
-        timer += Time.deltaTime / 3;
-        alpha = animCurve.Evaluate(timer);
         if(isMoving == true)
         {
-            gameObjectCollision.transform.position = Vector3.Lerp(gameObjectCollision.transform.position, gameObject.transform.parent.position, alpha); // Enemy goes to the candy's position
-            //isMoving = false;
-            //timer = 0f;
+            gameObjectCollision.transform.position = Vector3.MoveTowards(gameObjectCollision.transform.position, transform.parent.position, Time.deltaTime * speed); // Enemy goes to the candy's position
+            if(Vector3.Distance(gameObjectCollision.transform.position, transform.parent.position) <= distanceFromCandy)
+            {
+                gameObjectCollision.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                Destroy(gameObject);
+                isMoving = false;
+            }
         }
     }
 }

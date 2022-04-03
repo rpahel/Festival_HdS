@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 146968103}
   - component: {fileID: 146968102}
   - component: {fileID: 146968101}
+  - component: {fileID: 146968105}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Enemy
@@ -287,13 +288,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146968100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.478, y: -10.728, z: 0.04}
+  m_LocalPosition: {x: -5.18, y: -16.709, z: 0.04}
   m_LocalScale: {x: 0.2487, y: 0.2487, z: 0.2487}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &146968105
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146968100}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 64
+  m_CollisionDetection: 0
 --- !u!1001 &193505871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1528,6 +1545,10 @@ PrefabInstance:
       value: Stairs_06_01
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 13107e251f51b4f4a9da167ad7415bcc, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 13107e251f51b4f4a9da167ad7415bcc, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -1694,7 +1715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974002996900609679, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.489
+      value: -16.428
       objectReference: {fileID: 0}
     - target: {fileID: 8974002996900609679, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2319,8 +2340,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2692915843217817315, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: m_Size.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692915843217817315, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: m_Size.y
+      value: 1.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692915843217817315, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: m_Size.z
+      value: 1.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692915843217817315, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692915843217817315, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2692915843828498842, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
       propertyPath: m_RootOrder
@@ -2369,6 +2406,50 @@ PrefabInstance:
     - target: {fileID: 2692915843828498847, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
       propertyPath: m_Name
       value: Candy
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071360810108509229, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071360810108509229, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: distanceFromCandy
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071360810108509229, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: animCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071360810108509229, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: animCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071360810108509229, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: animCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071360810108509229, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: animCurve.m_Curve.Array.data[0].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071360810108509229, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: animCurve.m_Curve.Array.data[1].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071360810108509229, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: animCurve.m_Curve.Array.data[0].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071360810108509229, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: animCurve.m_Curve.Array.data[1].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071360810108509229, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: animCurve.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071360810108509229, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
+      propertyPath: animCurve.m_Curve.Array.data[1].tangentMode
+      value: 34
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
