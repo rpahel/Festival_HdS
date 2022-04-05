@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(Input.GetAxis("Horizontal"));
         MovePlayer();
         MovingLight();
         TurningThePlayer();
@@ -96,6 +97,7 @@ public class PlayerMovement : MonoBehaviour
             animPlayer.SetFloat("Speed", 0.2f);
             rightArm.SetActive(false);
             leftArm.SetActive(true);
+            
         }
         if (Input.GetAxis("Horizontal") > 0)
         {
@@ -124,6 +126,17 @@ public class PlayerMovement : MonoBehaviour
         Vector3 toConvert = Input.mousePosition;
         toConvert.z = -mainCam.transform.position.z;
         Vector3 mousePos = mainCam.ScreenToWorldPoint(toConvert);
+        if(mousePos.x <= transform.position.x)
+        {
+            animPlayer.SetBool("FaceLeft", true);
+            rightArm.SetActive(false);
+            leftArm.SetActive(true);
+        } else
+        {
+            animPlayer.SetBool("FaceLeft", false);
+            rightArm.SetActive(true);
+            leftArm.SetActive(false);
+        }
         angle = Mathf.Atan2(mousePos.y - lampLight.transform.position.y, mousePos.x - lampLight.transform.position.x);
         lampLight.transform.rotation = Quaternion.Euler(-angle * Mathf.Rad2Deg, 90, 90);
     }

@@ -66,6 +66,18 @@ public class UseAndReloadLamp : MonoBehaviour
         {
             lampStaminaBar.value = valueStamina;
         }
+
+        if (lampStaminaBar.value <= lampStaminaBar.maxValue / 2 && Camera.main.fieldOfView >= 4)
+        {
+            if (!isPressed)
+            {
+                Camera.main.fieldOfView -= Time.deltaTime; // calcul to be determined with the value of the stamina
+            }
+        }
+        else if (lampStaminaBar.value > lampStaminaBar.maxValue / 2 && Camera.main.fieldOfView <= 10.85f)
+        {
+            Camera.main.fieldOfView = 10.85f;
+        }
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
