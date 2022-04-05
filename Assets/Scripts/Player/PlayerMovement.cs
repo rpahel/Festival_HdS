@@ -10,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
     public GameObject candy;
     private GameObject candyClone;
 
+    public Animator animPlayer;
+    public GameObject leftArm, rightArm;
+
     private Vector3 directionVelocity;
 
     public Camera mainCam;
@@ -62,8 +65,6 @@ public class PlayerMovement : MonoBehaviour
             }
             positionsPredicted = PredictPositions();
             lrTraj.positionCount = positionsPredicted.Count;
-            lrTraj.startColor = Color.blue;
-            lrTraj.endColor = Color.white;
             // Debug the path of the candy
             for(int i = 0; i < PredictPositions().Count; i++)
             {
@@ -91,10 +92,22 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetAxis("Horizontal") < 0)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, -180, 0), Time.deltaTime * speedTurn);
+            animPlayer.SetBool("FaceLeft", true);
+            animPlayer.SetFloat("Speed", 0.2f);
+            rightArm.SetActive(false);
+            leftArm.SetActive(true);
         }
         if (Input.GetAxis("Horizontal") > 0)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, 0), Time.deltaTime * speedTurn);
+            animPlayer.SetBool("FaceLeft", false);
+            animPlayer.SetFloat("Speed", 0.2f);
+            rightArm.SetActive(true);
+            leftArm.SetActive(false);
+        }
+        if (Input.GetAxis("Horizontal") == 0)
+        {
+            animPlayer.SetFloat("Speed", 0);
         }
         if (Input.GetAxis("Vertical") > 0)
         {
