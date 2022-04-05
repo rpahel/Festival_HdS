@@ -42,7 +42,7 @@ public class UseAndReloadLamp : MonoBehaviour
             }
             else
             {
-                lamp.intensity = 20;
+                lamp.intensity = 3;
             }
         }
         if(lampStaminaBar.value <= 0)
