@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(Input.GetAxis("Horizontal"));
+        //Debug.Log(Input.GetAxis("Horizontal"));
         MovePlayer();
         MovingLight();
         TurningThePlayer();
