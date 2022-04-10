@@ -9,6 +9,7 @@ TagManager:
   - Door
   - Enemy
   - Room
+  - Monster
   layers:
   - Default
   - TransparentFX
