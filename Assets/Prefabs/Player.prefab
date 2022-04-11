@@ -167,7 +167,7 @@ MonoBehaviour:
   rightArm: {fileID: 7254067783390323548}
   mainCam: {fileID: 0}
   cameraYOffset: 0
-  speed: 3
+  moveSpeed: 3
   speedTurn: 0
   rate: 2
   timeSimulatingLr: 5

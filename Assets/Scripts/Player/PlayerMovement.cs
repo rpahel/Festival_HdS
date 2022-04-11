@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public Camera mainCam;
     public float cameraYOffset;
 
-    public float speed = 0f;
+    public float moveSpeed = 2f;
     public float speedTurn = 0f;
     public float rate;
     public float timeSimulatingLr;
@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Move player
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        PlayerController.SimpleMove(movement);
+        PlayerController.SimpleMove(movement * moveSpeed);
         mainCam.transform.position = new Vector3(mainCam.transform.position.x, transform.position.y + cameraYOffset, mainCam.transform.position.z);
     }
     private void TurningThePlayer()
@@ -114,10 +114,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetAxis("Vertical") > 0)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, -90, 0), Time.deltaTime * speedTurn);
+            animPlayer.SetFloat("Speed", 0.2f);
         }
         if (Input.GetAxis("Vertical") < 0)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 90, 0), Time.deltaTime * speedTurn);
+            animPlayer.SetFloat("Speed", 0.2f);
         }
     }
     private void MovingLight()
