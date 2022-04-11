@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Camera mainCam;
     private float cameraYOffset;
+    private float cameraXValueToKeep;
 
     public float moveSpeed = 2f;
     public float speedTurn = 0f;
@@ -36,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
         PlayerController = GetComponent<CharacterController>();
         lrTraj = GetComponent<LineRenderer>();
         canThrow = true;
+        cameraXValueToKeep = mainCam.transform.position.x;
     }
 
     private void Update()
@@ -95,7 +97,13 @@ public class PlayerMovement : MonoBehaviour
         // Move player
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         PlayerController.SimpleMove(movement * moveSpeed);
-        mainCam.transform.position = new Vector3(mainCam.transform.position.x, transform.position.y + cameraYOffset, mainCam.transform.position.z);
+        if(transform.position.x <= -4.6f || transform.position.x >= 3.93f)
+        {
+            mainCam.transform.position = new Vector3(transform.position.x, transform.position.y + cameraYOffset, mainCam.transform.position.z);
+        } else
+        {
+            mainCam.transform.position = new Vector3(cameraXValueToKeep, transform.position.y + cameraYOffset, mainCam.transform.position.z);
+        }
     }
     private void TurningThePlayer()
     {
