@@ -14,9 +14,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject leftArm, rightArm;
 
     private Vector3 directionVelocity;
+    private Vector3 mousePos;
 
     public Camera mainCam;
-    public float cameraYOffset;
+    private float cameraYOffset;
 
     public float moveSpeed = 2f;
     public float speedTurn = 0f;
@@ -64,6 +65,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 directionVelocity = new Vector3(2, 5, 0);
             }
+
+            if (previousInputLook == 0 && (mousePos.x > transform.position.x && Input.GetAxis("Horizontal") == 0))
+            {
+                directionVelocity = new Vector3(2, 5, 0);
+            }
+            else if (previousInputLook == 0 && (mousePos.x <= transform.position.x && Input.GetAxis("Horizontal") == 0))
+            {
+                directionVelocity = new Vector3(-2, 5, 0);
+            }
             positionsPredicted = PredictPositions();
             lrTraj.positionCount = positionsPredicted.Count;
             // Debug the path of the candy
@@ -109,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetAxis("Horizontal") == 0)
         {
+            previousInputLook = 0;
             animPlayer.SetFloat("Speed", 0);
         }
         if (Input.GetAxis("Vertical") > 0)
@@ -127,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
         // Move Light
         Vector3 toConvert = Input.mousePosition;
         toConvert.z = -mainCam.transform.position.z;
-        Vector3 mousePos = mainCam.ScreenToWorldPoint(toConvert);
+        mousePos = mainCam.ScreenToWorldPoint(toConvert);
         if(mousePos.x <= transform.position.x)
         {
             animPlayer.SetBool("FaceLeft", true);
@@ -145,17 +156,36 @@ public class PlayerMovement : MonoBehaviour
 
     private void ThrowCandy()
     {    
+        //throw candy with movement
         if(previousInputLook < 0)
         {
             Vector3 spawnPosition = new Vector3(transform.position.x - 0.2f, transform.position.y, transform.position.z);
             candyClone = Instantiate(candy, spawnPosition, Quaternion.identity);
+            directionVelocity = new Vector3(-2, 5, 0);
             candyClone.GetComponent<Rigidbody>().velocity = directionVelocity;
         }
 
         if(previousInputLook > 0)
         {
-            Vector3 spawnPosition = new Vector3(transform.position.x + 0.2f, transform.position.y, transform.position.z);
+            Vector3 spawnPosition = new Vector3(transform.position.x + 0.6f, transform.position.y, transform.position.z);
             candyClone = Instantiate(candy, spawnPosition, Quaternion.identity);
+            directionVelocity = new Vector3(2, 5, 0);
+            candyClone.GetComponent<Rigidbody>().velocity = directionVelocity;
+
+        }
+
+        // throw candy with speed = 0 but with the mousePos
+        if (previousInputLook == 0 && (mousePos.x > transform.position.x && Input.GetAxis("Horizontal") == 0))
+        {
+            Vector3 spawnPosition = new Vector3(transform.position.x + 0.6f, transform.position.y, transform.position.z);
+            candyClone = Instantiate(candy, spawnPosition, Quaternion.identity);
+            directionVelocity = new Vector3(2, 5, 0);
+            candyClone.GetComponent<Rigidbody>().velocity = directionVelocity;
+        } else if(previousInputLook == 0 && (mousePos.x <= transform.position.x && Input.GetAxis("Horizontal") == 0))
+        {
+            Vector3 spawnPosition = new Vector3(transform.position.x - 0.2f, transform.position.y, transform.position.z);
+            candyClone = Instantiate(candy, spawnPosition, Quaternion.identity);
+            directionVelocity = new Vector3(-2, 5, 0);
             candyClone.GetComponent<Rigidbody>().velocity = directionVelocity;
         }
         //Destroy(candyClone, 5f);
@@ -172,9 +202,29 @@ public class PlayerMovement : MonoBehaviour
         {
             float simulationTime = i / (float)maxSteps;
             Vector3 displacement = directionVelocity * simulationTime + Vector3.up * gravity * simulationTime * simulationTime / 2f;
-            Vector3 drawPoint = transform.position + displacement;
+            Vector3 drawPoint;
+            if (previousInputLook > 0)
+            {
+                drawPoint = new Vector3(transform.position.x + 0.6f, transform.position.y, transform.position.z) + displacement;
+                positions.Add(drawPoint);
+            }
+            if (previousInputLook < 0)
+            {
+                drawPoint = new Vector3(transform.position.x - 0.2f, transform.position.y, transform.position.z) + displacement;
+                positions.Add(drawPoint);
+            }
+
+            if (previousInputLook == 0 && (mousePos.x > transform.position.x && Input.GetAxis("Horizontal") == 0))
+            {
+                drawPoint = new Vector3(transform.position.x + 0.6f, transform.position.y, transform.position.z) + displacement;
+                positions.Add(drawPoint);
+            }
+            if (previousInputLook == 0 && (mousePos.x <= transform.position.x && Input.GetAxis("Horizontal") == 0))
+            {
+                drawPoint = new Vector3(transform.position.x - 0.2f, transform.position.y, transform.position.z) + displacement;
+                positions.Add(drawPoint);
+            }
             displacement.z = transform.position.z;
-            positions.Add(drawPoint);
         }
         return positions;
     }

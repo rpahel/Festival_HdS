@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lampLight: {fileID: 6231978702617881833}
-  candy: {fileID: 0}
+  candy: {fileID: 2692915843828498847, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
   animPlayer: {fileID: 7254067784143339076}
   leftArm: {fileID: 7254067784753820613}
   rightArm: {fileID: 7254067783390323548}
