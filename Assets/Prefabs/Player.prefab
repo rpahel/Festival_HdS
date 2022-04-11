@@ -166,7 +166,6 @@ MonoBehaviour:
   leftArm: {fileID: 7254067784753820613}
   rightArm: {fileID: 7254067783390323548}
   mainCam: {fileID: 0}
-  cameraYOffset: 0
   moveSpeed: 3
   speedTurn: 0
   rate: 2
@@ -195,7 +194,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7254067783307419053}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4300ca3d96b46346abe730275666e56, type: 3}
   m_Name: 

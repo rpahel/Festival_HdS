@@ -7706,10 +7706,6 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8682922966622826595, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8682922966622826595, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
       propertyPath: lampStaminaBar
       value: 
       objectReference: {fileID: 453630437}
