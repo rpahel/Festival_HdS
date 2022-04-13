@@ -151,7 +151,7 @@ MonoBehaviour:
   armPivot: {fileID: 7254067783337193091}
   leftArm: {fileID: 7254067784753820613}
   rightArm: {fileID: 7254067783390323548}
-  lampStaminaBar: {fileID: 0}
+  lampStaminaBar: {fileID: 7677179718383929492, guid: c1a171f3178ecc84991c7caafaf11a65, type: 3}
   lamp1: {fileID: 4294756854791821397}
   lamp2: {fileID: 3954608600378528926}
   speedStaminaDown: 1
