@@ -11,6 +11,9 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Player : MonoBehaviour
 {
+    [Header("GameManager")]
+    public EvaManager manager;
+
     [Header("Movement")]
     public float walkSpeed = 2f;
     public float runSpeed = 5f;
@@ -117,6 +120,14 @@ public class Player : MonoBehaviour
             if (isEntering)
             {
                 transform.position += Vector3.forward * Time.deltaTime * 1f;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            for (int i = 0; i < manager.monsters.Length; i++)
+            {
+                manager.monsters[i].ChasePlayer(transform.position);
             }
         }
     }

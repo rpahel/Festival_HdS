@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1959770462091821025}
   - component: {fileID: 4294756854791821397}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Light_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 3354735317898717795}
   - component: {fileID: 3928549699973393142}
   - component: {fileID: 1833589530}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -400,7 +400,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7254067783337193116}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ArmPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 7254067783390323549}
   - component: {fileID: 7254067783390323544}
   - component: {fileID: 7254067783390323551}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 7254067784143339076}
   - component: {fileID: 8111341313314331303}
   - component: {fileID: 8123620887789843205}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -734,7 +734,7 @@ GameObject:
   - component: {fileID: 7254067784753820614}
   - component: {fileID: 7254067784753820608}
   - component: {fileID: 7254067784753820615}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -817,7 +817,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6088581818340836300}
   - component: {fileID: 3954608600378528926}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Light_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
