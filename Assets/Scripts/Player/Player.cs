@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
 
     [Header("Audio")]
     private AudioSource audioSourcePlayer;
+    private AudioSource audioSourceLightPlayer;
 
     private void Awake()
     {
@@ -66,6 +67,7 @@ public class Player : MonoBehaviour
         lampStaminaBar.value = lampStaminaBar.maxValue;
 
         audioSourcePlayer = GetComponent<AudioSource>();
+        audioSourceLightPlayer = gameObject.AddComponent<AudioSource>();
     }
 
     private void Update()
@@ -99,13 +101,10 @@ public class Player : MonoBehaviour
         if (Input.GetButton("Run"))
         {
             PlayerController.SimpleMove(movement.normalized * runSpeed);
-            Debug.Log(PlayerController.velocity.magnitude);
-
         }
         else
         {
             PlayerController.SimpleMove(movement.normalized * walkSpeed);
-            Debug.Log(PlayerController.velocity.magnitude);
         }
 
 
@@ -224,6 +223,8 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Lamp") && canBePressed)
         {
             isPressed = !isPressed;
+            audioSourceLightPlayer.clip = AudioManager.Instance.audioClipPlayer[3];
+            audioSourceLightPlayer.Play();
         }
 
         if (isPressed && lampStaminaBar.value > 0)
