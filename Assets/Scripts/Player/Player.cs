@@ -306,7 +306,7 @@ public class Player : MonoBehaviour
 
         if (lampStaminaBar.value <= 0)
         {
-            Camera.main.fieldOfView -= Time.deltaTime * zoomSpeed; // calcul to be determined with the value of the stamina
+            Camera.main.fieldOfView -= Time.deltaTime * zoomSpeed;
         }
         else
         {
