@@ -1,16 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class Player : MonoBehaviour
 {
     [Header("Movement")]
     public float walkSpeed = 2f;
     public float runSpeed = 5f;
-    private CharacterController PlayerController;
+    public float walkJump;
+    public float runJump;
+    private CharacterController playerController;
+    private Collider playerCollider;
 
     [Header("Animations")]
     public Animator animPlayer;
@@ -49,8 +56,11 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        PlayerController = GetComponent<CharacterController>();
+        playerController = GetComponent<CharacterController>();
         lrTraj = GetComponent<LineRenderer>();
+        playerCollider = GetComponent<Collider>();
+        audioSourcePlayer = GetComponent<AudioSource>();
+        audioSourceLightPlayer = gameObject.AddComponent<AudioSource>();
         canThrow = true;
     }
 
@@ -65,9 +75,6 @@ public class Player : MonoBehaviour
 
         lampStaminaBar.maxValue = maxValueStamina;
         lampStaminaBar.value = lampStaminaBar.maxValue;
-
-        audioSourcePlayer = GetComponent<AudioSource>();
-        audioSourceLightPlayer = gameObject.AddComponent<AudioSource>();
     }
 
     private void Update()
@@ -100,16 +107,16 @@ public class Player : MonoBehaviour
 
         if (Input.GetButton("Run"))
         {
-            PlayerController.SimpleMove(movement.normalized * runSpeed);
+            playerController.SimpleMove(movement.normalized * runSpeed);
         }
         else
         {
-            PlayerController.SimpleMove(movement.normalized * walkSpeed);
+            playerController.SimpleMove(movement.normalized * walkSpeed);
         }
 
 
         //Footsteps
-        if (PlayerController.velocity == Vector3.zero)
+        if (playerController.velocity == Vector3.zero)
         {
             if(audioSourcePlayer.clip != null)
                 audioSourcePlayer.Stop();
@@ -123,10 +130,10 @@ public class Player : MonoBehaviour
             if (!audioSourcePlayer.isPlaying && audioSourcePlayer.clip != null)
             {
                 audioSourcePlayer.Play();
-                if(PlayerController.velocity.magnitude <= 2)
+                if(playerController.velocity.magnitude <= 2)
                 {
                     audioSourcePlayer.pitch = 1.3f;
-                } else if(PlayerController.velocity.magnitude > 2.2f)
+                } else if(playerController.velocity.magnitude > 2.2f)
                 {
                     audioSourcePlayer.pitch = 2f;
                 }
@@ -142,7 +149,7 @@ public class Player : MonoBehaviour
             mainCam.transform.position = new Vector3(cameraXValueToKeep, transform.position.y + 1f, mainCam.transform.position.z);
         }
 
-        animPlayer.SetFloat("Speed", PlayerController.velocity.sqrMagnitude);
+        animPlayer.SetFloat("Speed", playerController.velocity.sqrMagnitude);
     }
 
     private void MovingLight()
@@ -164,7 +171,7 @@ public class Player : MonoBehaviour
             leftArm.SetActive(false);
         }
 
-        if (PlayerController.velocity.sqrMagnitude > 10)
+        if (playerController.velocity.sqrMagnitude > 10)
         {
             if (mousePos.x >= 0)
             {
@@ -271,8 +278,26 @@ public class Player : MonoBehaviour
         }
     }
 
+    private bool OnGround()
+    {
+        Debug.DrawLine(playerCollider.bounds.center, playerCollider.bounds.center + Vector3.down * (playerCollider.bounds.extents.y + 0.5f), Color.red);
+
+        if (Physics.Raycast(playerCollider.bounds.center, Vector3.down,
+                playerCollider.bounds.extents.y + 0.5f))
+        {
+            return true;
+        }
+        
+        return false;
+    }
+
     public void Jump()
     {
+        float axis = Input.GetAxis("Horizontal"); 
 
+        if (axis == 0)
+        {
+            //playerController.
+        }
     }
 }

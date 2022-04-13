@@ -104,6 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7254067783307419049}
   - component: {fileID: 1232587357982510587}
+  - component: {fileID: 2040493045528386056}
   - component: {fileID: 3354735317898717795}
   - component: {fileID: 3928549699973393142}
   - component: {fileID: 1833589530}
@@ -145,6 +146,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 2
   runSpeed: 5
+  walkJump: 0
+  runJump: 0
   animPlayer: {fileID: 7254067784143339076}
   armPivot: {fileID: 7254067783337193091}
   leftArm: {fileID: 7254067784753820613}
@@ -160,6 +163,22 @@ MonoBehaviour:
   throwForce: 6
   throwCooldown: 2
   mainCam: {fileID: 0}
+--- !u!54 &2040493045528386056
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7254067783307419053}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!143 &3354735317898717795
 CharacterController:
   m_ObjectHideFlags: 0
