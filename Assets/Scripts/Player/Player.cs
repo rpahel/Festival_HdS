@@ -42,7 +42,10 @@ public class Player : MonoBehaviour
     [Header("Camera")]
     public Camera mainCam;
     private float cameraXValueToKeep;
-    
+
+    [Header("Audio")]
+    private AudioSource audioSourcePlayer;
+
     private void Awake()
     {
         PlayerController = GetComponent<CharacterController>();
@@ -61,6 +64,8 @@ public class Player : MonoBehaviour
 
         lampStaminaBar.maxValue = maxValueStamina;
         lampStaminaBar.value = lampStaminaBar.maxValue;
+
+        audioSourcePlayer = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -94,10 +99,39 @@ public class Player : MonoBehaviour
         if (Input.GetButton("Run"))
         {
             PlayerController.SimpleMove(movement.normalized * runSpeed);
+            Debug.Log(PlayerController.velocity.magnitude);
+
         }
         else
         {
             PlayerController.SimpleMove(movement.normalized * walkSpeed);
+            Debug.Log(PlayerController.velocity.magnitude);
+        }
+
+
+        //Footsteps
+        if (PlayerController.velocity == Vector3.zero)
+        {
+            if(audioSourcePlayer.clip != null)
+                audioSourcePlayer.Stop();
+
+            audioSourcePlayer.clip = null;
+        }
+        else
+        {
+            audioSourcePlayer.clip = AudioManager.Instance.audioClipPlayer[0];
+            
+            if (!audioSourcePlayer.isPlaying && audioSourcePlayer.clip != null)
+            {
+                audioSourcePlayer.Play();
+                if(PlayerController.velocity.magnitude <= 2)
+                {
+                    audioSourcePlayer.pitch = 1.3f;
+                } else if(PlayerController.velocity.magnitude > 2.2f)
+                {
+                    audioSourcePlayer.pitch = 2f;
+                }
+            } 
         }
 
         if (transform.position.x <= -4.6f || transform.position.x >= 3.93f)
