@@ -39,4 +39,14 @@ public class AnimationEvents : MonoBehaviour
     {
         player.ArmMesh(true);
     }
+
+    public void GoingInside()
+    {
+        player.GoingInside();
+    }
+
+    public void Teleport()
+    {
+        player.Teleport();
+    }
 }

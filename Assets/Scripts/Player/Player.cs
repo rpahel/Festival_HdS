@@ -56,6 +56,11 @@ public class Player : MonoBehaviour
     private AudioSource audioSourcePlayer;
     private AudioSource audioSourceLightPlayer;
 
+    [Header("Vent")]
+    private Vector3 destination;
+    private bool isEntering;
+    private bool ventActivated;
+
     private void Awake()
     {
         playerController = GetComponent<CharacterController>();
@@ -85,25 +90,35 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        mousePos = (mainCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)) - armPivot.transform.position).normalized;
-        
-        MovingLight();
-        MovePlayer();
-        OnOffLamp();
-        StaminaManager();
-
-        if (Input.GetButton("Throw") && canThrow)
+        if (!ventActivated)
         {
-            ThrowTrajectory();
-        }
+            mousePos = (mainCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)) - armPivot.transform.position).normalized;
 
-        if (Input.GetButtonUp("Throw") && canThrow)
+            MovingLight();
+            MovePlayer();
+            OnOffLamp();
+            StaminaManager();
+
+            if (Input.GetButton("Throw") && canThrow)
+            {
+                ThrowTrajectory();
+            }
+
+            if (Input.GetButtonUp("Throw") && canThrow)
+            {
+                lrTraj.enabled = false;
+                animPlayer.SetTrigger("Throw");
+            }
+
+            lampStaminaBar.value = Mathf.Clamp(lampStaminaBar.value, 0, maxValueStamina);
+        }
+        else
         {
-            lrTraj.enabled = false;
-            animPlayer.SetTrigger("Throw");
+            if (isEntering)
+            {
+                transform.position += Vector3.forward * Time.deltaTime * 1f;
+            }
         }
-
-        lampStaminaBar.value = Mathf.Clamp(lampStaminaBar.value, 0, maxValueStamina);
     }
 
     private void MovePlayer()
@@ -340,5 +355,29 @@ public class Player : MonoBehaviour
     {
         leftArmMesh.enabled = active;
         rightArmMesh.enabled = active;
+    }
+
+    public void Vent(Vector3 beginPoint, Vector3 endPoint)
+    {
+        ventActivated = true;
+        transform.position = beginPoint - Vector3.right * .25f;
+        destination = endPoint;
+        animPlayer.SetTrigger("Vent");
+        playerController.enabled = false;
+        armPivot.SetActive(false);
+    }
+
+    public void GoingInside()
+    {
+        isEntering = true;
+    }
+
+    public void Teleport()
+    {
+        transform.position = destination - Vector3.right * .25f + Vector3.up * .5f;
+        isEntering = false;
+        playerController.enabled = true;
+        armPivot.SetActive(true);
+        ventActivated = false;
     }
 }
