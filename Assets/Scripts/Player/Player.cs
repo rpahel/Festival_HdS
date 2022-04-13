@@ -14,10 +14,11 @@ public class Player : MonoBehaviour
     [Header("Movement")]
     public float walkSpeed = 2f;
     public float runSpeed = 5f;
-    public float walkJump;
-    public float runJump;
+    public float jumpHeight;
     private CharacterController playerController;
     private Collider playerCollider;
+    private Rigidbody rb;
+    private Vector3 jumpDir = Vector3.zero;
 
     [Header("Animations")]
     public Animator animPlayer;
@@ -61,6 +62,7 @@ public class Player : MonoBehaviour
         playerCollider = GetComponent<Collider>();
         audioSourcePlayer = GetComponent<AudioSource>();
         audioSourceLightPlayer = gameObject.AddComponent<AudioSource>();
+        rb = GetComponent<Rigidbody>();
         canThrow = true;
     }
 
@@ -107,11 +109,11 @@ public class Player : MonoBehaviour
 
         if (Input.GetButton("Run"))
         {
-            playerController.SimpleMove(movement.normalized * runSpeed);
+            playerController.Move(movement.normalized * runSpeed * Time.deltaTime);
         }
         else
         {
-            playerController.SimpleMove(movement.normalized * walkSpeed);
+            playerController.Move(movement.normalized * walkSpeed * Time.deltaTime);
         }
 
 
@@ -130,7 +132,7 @@ public class Player : MonoBehaviour
             if (!audioSourcePlayer.isPlaying && audioSourcePlayer.clip != null)
             {
                 audioSourcePlayer.Play();
-                if(playerController.velocity.magnitude <= 2)
+                if(playerController.velocity.magnitude <= 2f)
                 {
                     audioSourcePlayer.pitch = 1.3f;
                 } else if(playerController.velocity.magnitude > 2.2f)
@@ -150,6 +152,26 @@ public class Player : MonoBehaviour
         }
 
         animPlayer.SetFloat("Speed", playerController.velocity.sqrMagnitude);
+
+        if (Input.GetButtonDown("Jump") && isGrounded(.1f))
+        {
+            animPlayer.SetTrigger("Jump");
+        }
+        
+        jumpDir.y += -9.81f * 2f * Time.deltaTime;
+
+        if (isGrounded(.1f) && jumpDir.y < 0)
+        {
+            jumpDir.y = 0;
+            animPlayer.SetBool("isFalling", false);
+        }
+        else if (!isGrounded(.1f) && jumpDir.y < 0)
+        {
+            if(!isGrounded(.3f)) // Juste pour être sûr qu'on est pas sur une pente
+                animPlayer.SetBool("isFalling", true);
+        }
+
+        playerController.Move(jumpDir * Time.deltaTime);
     }
 
     private void MovingLight()
@@ -278,26 +300,31 @@ public class Player : MonoBehaviour
         }
     }
 
-    private bool OnGround()
+    private bool isGrounded(float distance)
     {
-        Debug.DrawLine(playerCollider.bounds.center, playerCollider.bounds.center + Vector3.down * (playerCollider.bounds.extents.y + 0.5f), Color.red);
+        Debug.DrawLine(playerCollider.bounds.center, playerCollider.bounds.center + Vector3.down * (playerCollider.bounds.extents.y + distance), Color.red);
+        Debug.DrawLine(playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x)),
+            (playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x))) + (new Vector3(-1f, -1f, 0)).normalized * (playerCollider.bounds.extents.x + distance),
+            Color.red);
+        Debug.DrawLine(playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x)),
+            (playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x))) + (new Vector3(1f, -1f, 0)).normalized * (playerCollider.bounds.extents.x + distance),
+            Color.red);
 
-        if (Physics.Raycast(playerCollider.bounds.center, Vector3.down,
-                playerCollider.bounds.extents.y + 0.5f))
+        if (Physics.Raycast(playerCollider.bounds.center, Vector3.down, playerCollider.bounds.extents.y + distance) ||
+            Physics.Raycast(playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x)), (new Vector3(-1f,-1f,0)).normalized, (playerCollider.bounds.extents.x + distance)) ||
+            Physics.Raycast(playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x)), (new Vector3(1f,-1f,0)).normalized, (playerCollider.bounds.extents.x + distance)))
         {
             return true;
         }
-        
+
         return false;
     }
 
     public void Jump()
     {
-        float axis = Input.GetAxis("Horizontal"); 
-
-        if (axis == 0)
+        if (isGrounded(.1f))
         {
-            //playerController.
+            jumpDir.y = Mathf.Sqrt(jumpHeight * -3.0f * -9.81f);
         }
     }
 }
