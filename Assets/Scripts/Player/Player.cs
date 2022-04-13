@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
 
     [Header("Lamp")]
     public GameObject armPivot, leftArm, rightArm;
+    private MeshRenderer leftArmMesh, rightArmMesh;
     private Vector3 walkArmPivot;
     private Vector2 mousePos;
     public Slider lampStaminaBar;
@@ -68,6 +69,9 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        leftArmMesh = leftArm.GetComponent<MeshRenderer>();
+        rightArmMesh = rightArm.GetComponent<MeshRenderer>();
+
         cameraXValueToKeep = mainCam.transform.position.x;
 
         walkArmPivot = armPivot.transform.localPosition;
@@ -156,6 +160,7 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded(.1f))
         {
             animPlayer.SetTrigger("Jump");
+            ArmMesh(false);
         }
         
         jumpDir.y += -9.81f * 2f * Time.deltaTime;
@@ -167,8 +172,11 @@ public class Player : MonoBehaviour
         }
         else if (!isGrounded(.1f) && jumpDir.y < 0)
         {
-            if(!isGrounded(.3f)) // Juste pour être sûr qu'on est pas sur une pente
+            if (!isGrounded(.3f)) // Juste pour être sûr qu'on est pas sur une pente
+            {
                 animPlayer.SetBool("isFalling", true);
+                ArmMesh(false);
+            }
         }
 
         playerController.Move(jumpDir * Time.deltaTime);
@@ -302,13 +310,13 @@ public class Player : MonoBehaviour
 
     private bool isGrounded(float distance)
     {
-        Debug.DrawLine(playerCollider.bounds.center, playerCollider.bounds.center + Vector3.down * (playerCollider.bounds.extents.y + distance), Color.red);
-        Debug.DrawLine(playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x)),
-            (playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x))) + (new Vector3(-1f, -1f, 0)).normalized * (playerCollider.bounds.extents.x + distance),
-            Color.red);
-        Debug.DrawLine(playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x)),
-            (playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x))) + (new Vector3(1f, -1f, 0)).normalized * (playerCollider.bounds.extents.x + distance),
-            Color.red);
+        //Debug.DrawLine(playerCollider.bounds.center, playerCollider.bounds.center + Vector3.down * (playerCollider.bounds.extents.y + distance), Color.red);
+        //Debug.DrawLine(playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x)),
+        //    (playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x))) + (new Vector3(-1f, -1f, 0)).normalized * (playerCollider.bounds.extents.x + distance),
+        //    Color.red);
+        //Debug.DrawLine(playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x)),
+        //    (playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x))) + (new Vector3(1f, -1f, 0)).normalized * (playerCollider.bounds.extents.x + distance),
+        //    Color.red);
 
         if (Physics.Raycast(playerCollider.bounds.center, Vector3.down, playerCollider.bounds.extents.y + distance) ||
             Physics.Raycast(playerCollider.bounds.center + (Vector3.down * (playerCollider.bounds.extents.y - playerCollider.bounds.extents.x)), (new Vector3(-1f,-1f,0)).normalized, (playerCollider.bounds.extents.x + distance)) ||
@@ -326,5 +334,11 @@ public class Player : MonoBehaviour
         {
             jumpDir.y = Mathf.Sqrt(jumpHeight * -3.0f * -9.81f);
         }
+    }
+
+    public void ArmMesh(bool active)
+    {
+        leftArmMesh.enabled = active;
+        rightArmMesh.enabled = active;
     }
 }

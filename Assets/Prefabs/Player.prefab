@@ -144,10 +144,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97f1bc916497c754396b900f15741c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 100
-  runSpeed: 400
-  walkJump: 0
-  runJump: 0
+  walkSpeed: 2
+  runSpeed: 5
+  jumpHeight: 3
   animPlayer: {fileID: 7254067784143339076}
   armPivot: {fileID: 7254067783337193091}
   leftArm: {fileID: 7254067784753820613}

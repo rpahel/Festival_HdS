@@ -34,4 +34,9 @@ public class AnimationEvents : MonoBehaviour
     {
 
     }
+
+    public void ArmMeshActivate()
+    {
+        player.ArmMesh(true);
+    }
 }
