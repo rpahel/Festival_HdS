@@ -84,12 +84,7 @@ public class Monster : MonoBehaviour
 
     public void CandyAlert(Vector3 position)
     {
-        //if (!chasingPlayer)
-        //{
-        //    StopAllCoroutines();
-        //    GoTo(position);
-        //    isWaiting = false;
-        //}
+
     }
 
     private void MonsterMove()
