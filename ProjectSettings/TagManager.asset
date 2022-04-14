@@ -10,6 +10,7 @@ TagManager:
   - Room
   - Monster
   - LampCharge
+  - AudioManager
   layers:
   - Default
   - TransparentFX

@@ -252,6 +252,7 @@ public class Player : MonoBehaviour
     {
         GameObject candyClone = Instantiate(candy, beginTraj, Quaternion.identity);
         candyClone.GetComponent<Rigidbody>().velocity = (endTraj - beginTraj).normalized * throwForce;
+        audioManager.PlayThrowCandy();
         Destroy(candyClone, 2f);
         StartCoroutine(Reloading());
     }
