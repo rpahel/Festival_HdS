@@ -58,42 +58,36 @@ public class AudioManager : MonoBehaviour
             audioSourceMonsters[i].spatialBlend = 1;
             audioSourceMonsters[i].rolloffMode = AudioRolloffMode.Linear;
             audioSourceMonsters[i].clip = audioClipMonstre[i];
-
         }
         for (int i = 0; i < audioClipPlayer.Count; i++)
         {
             audioSourcePlayer[i] = gameObject.AddComponent<AudioSource>();
             audioSourcePlayer[i].outputAudioMixerGroup = audioMixer;
             audioSourcePlayer[i].clip = audioClipPlayer[i];
-
         }
         for (int i = 0; i < audioClipAmbiance.Count; i++)
         {
             audioSourceAmbiance[i] = gameObject.AddComponent<AudioSource>();
             audioSourceAmbiance[i].outputAudioMixerGroup = audioMixer;
             audioSourceAmbiance[i].clip = audioClipAmbiance[i];
-
         }
         for (int i = 0; i < audioClipPhone.Count; i++)
         {
             audioSourcePhone[i] = gameObject.AddComponent<AudioSource>();
             audioSourcePhone[i].outputAudioMixerGroup = audioMixer;
             audioSourcePhone[i].clip = audioClipPhone[i];
-
         }
         for (int i = 0; i < audioClipDoll.Count; i++)
         {
             audioSourceDoll[i] = gameObject.AddComponent<AudioSource>();
             audioSourceDoll[i].outputAudioMixerGroup = audioMixer;
             audioSourceDoll[i].clip = audioClipDoll[i];
-
         }
         for (int i = 0; i < audioClipDoor.Count; i++)
         {
             audioSourceDoor[i] = gameObject.AddComponent<AudioSource>();
             audioSourceDoor[i].outputAudioMixerGroup = audioMixer;
             audioSourceDoor[i].clip = audioClipDoor[i];
-
         }
     }
 
@@ -102,7 +96,6 @@ public class AudioManager : MonoBehaviour
     {
         for(int i = 0; i < audioSourceMonsters.Length; i++)
         {
-            
             if (!audioSourceMonsters[i].isPlaying)
             {
                 audioSourceMonsters[i].Play();
@@ -112,12 +105,9 @@ public class AudioManager : MonoBehaviour
 
     public void MonsterStop()
     {
-        for (int i = 0; i < audioSourceMonsters.Length; i++)
+        if (audioSourceMonsters[1].isPlaying)
         {
-            if (audioSourceMonsters[i].isPlaying)
-            {
-                audioSourceMonsters[i].Stop();
-            }
+            audioSourceMonsters[1].Stop();
         }
     }
 
@@ -159,5 +149,26 @@ public class AudioManager : MonoBehaviour
     {
         audioSourcePlayer[1].Play();
     }
+    #endregion
+
+    #region DeathSounds
+
+    public void CamZooming()
+    {
+        if (!audioSourcePlayer[4].isPlaying)
+        {
+            audioSourcePlayer[4].pitch = 0.6f;
+            audioSourcePlayer[4].Play();
+        }
+    }
+
+    public void CamNotZooming()
+    {
+        if (audioSourcePlayer[4].isPlaying)
+        {
+            audioSourcePlayer[4].Stop();
+        }
+    }
+
     #endregion
 }
