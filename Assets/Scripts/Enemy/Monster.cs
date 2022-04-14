@@ -8,6 +8,7 @@ public class Monster : MonoBehaviour
     private NavMeshAgent agent;
     private Animator anim;
     public GameObject mesh;
+    
 
     [Header("Movement")]
     public Transform[] waypoints;
@@ -33,18 +34,7 @@ public class Monster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (nextPosIndex >= waypoints.Length)
-        {
-            nextPosIndex = 0;
-        }
-
-        if (waypoints.Length > 0 && agent.velocity == Vector3.zero && !isWaiting)
-        {
-            StartCoroutine(WaitBeforeGo(waypoints[nextPosIndex].position));
-            nextPosIndex++;
-        }
-
-        anim.SetFloat("Speed", agent.velocity.magnitude);
+        //MonsterMove();
     }
 
     public void GoTo(Vector3 position)
@@ -59,5 +49,21 @@ public class Monster : MonoBehaviour
         GoTo(nextPosition);
         yield return new WaitForSeconds(.25f);
         isWaiting = false;
+    }
+
+    public void MonsterMove()
+    {
+        if (nextPosIndex >= waypoints.Length)
+        {
+            nextPosIndex = 0;
+        }
+
+        if (waypoints.Length > 0 && agent.velocity == Vector3.zero && !isWaiting)
+        {
+            StartCoroutine(WaitBeforeGo(waypoints[nextPosIndex].position));
+            nextPosIndex++;
+        }
+
+        anim.SetFloat("Speed", agent.velocity.magnitude);
     }
 }
