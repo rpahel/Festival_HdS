@@ -5,10 +5,10 @@ using UnityEngine;
 public class Candy : MonoBehaviour
 {
     private EvaManager manager;
-    private Monster[] monsters;
+    private List<Monster> monsters;
     public float soundDistance;
 
-    void Awake()
+    void Start()
     {
         manager = FindObjectOfType<EvaManager>();
         monsters = manager.monsters;
@@ -18,7 +18,7 @@ public class Candy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("HardSurface"))
         {
-            for(int i = 0; i < monsters.Length; i++)
+            for(int i = 0; i < monsters.Count; i++)
             {
                 float distance = (monsters[i].gameObject.transform.position - transform.position).magnitude;
                 if(distance < soundDistance)
