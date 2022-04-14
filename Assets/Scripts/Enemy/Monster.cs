@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,9 +19,10 @@ public class Monster : MonoBehaviour
     private bool isWaiting;
     private int nextPosIndex;
 
-
     [Header("AI")]
+    public float agroDistance;
     private NavMeshAgent agent;
+    private Transform player;
     private bool chasingPlayer;
 
     void Awake()
@@ -36,12 +38,39 @@ public class Monster : MonoBehaviour
             agent.SetDestination(waypoints[0].position);
             nextPosIndex++;
         }
+
+        player = FindObjectOfType<Player>().gameObject.transform;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (CheckPlayer())
+        {
+            ChasePlayer();
+        }
+
         MonsterMove();
+    }
+    private bool CheckPlayer()
+    {
+        Debug.DrawLine(transform.position, transform.position + (player.position - transform.position).normalized * agroDistance, Color.red);
+
+        if ((transform.position - player.position).sqrMagnitude < (agroDistance * agroDistance))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, (player.position - transform.position).normalized, out hit, agroDistance))
+            {
+                if (hit.collider.gameObject.CompareTag("Player"))
+                {
+                    chasingPlayer = true;
+                    return true;
+                }
+            }
+        }
+
+        chasingPlayer = false;
+        return false;
     }
 
     public void GoTo(Vector3 position)
@@ -83,6 +112,20 @@ public class Monster : MonoBehaviour
             StopAllCoroutines();
             GoTo(position);
             isWaiting = false;
+        }
+    }
+
+    private void ChasePlayer()
+    {
+        StopAllCoroutines();
+        GoTo(player.position);
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Tombe"))
+        {
+            Debug.Log("yo");
         }
     }
 }

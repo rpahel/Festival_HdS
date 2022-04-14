@@ -12,6 +12,7 @@ TagManager:
   - LampCharge
   - AudioManager
   - HardSurface
+  - Tombe
   layers:
   - Default
   - TransparentFX

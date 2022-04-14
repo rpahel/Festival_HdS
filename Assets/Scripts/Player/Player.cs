@@ -20,7 +20,6 @@ public class Player : MonoBehaviour
     public float jumpHeight;
     private CharacterController playerController;
     private Collider playerCollider;
-    private Rigidbody rb;
     private Vector3 jumpDir = Vector3.zero;
 
     [Header("Animations")]
@@ -69,7 +68,6 @@ public class Player : MonoBehaviour
         lrTraj = GetComponent<LineRenderer>();
         playerCollider = GetComponent<Collider>();
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-        rb = GetComponent<Rigidbody>();
         canThrow = true;
     }
 
