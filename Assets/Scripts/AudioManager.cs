@@ -199,4 +199,16 @@ public class AudioManager : MonoBehaviour
     }
 
     #endregion
+
+    #region DollSounds
+
+    public void FindDoll()
+    {
+        if (!audioSourceDoll[0].isPlaying)
+        {
+            audioSourceDoll[0].Play();
+        }
+    }
+
+    #endregion
 }
