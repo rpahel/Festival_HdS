@@ -122,14 +122,6 @@ public class Player : MonoBehaviour
                 transform.position += Vector3.forward * Time.deltaTime * 1f;
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            for (int i = 0; i < manager.monsters.Length; i++)
-            {
-                manager.monsters[i].ChasePlayer(transform.position);
-            }
-        }
     }
 
     private void MovePlayer()
