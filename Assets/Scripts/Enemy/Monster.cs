@@ -18,40 +18,49 @@ public class Monster : MonoBehaviour
     public float waitBeforeMoving;
     private bool isWaiting;
     private int nextPosIndex;
+    public float speed;
+    private CapsuleCollider collider;
+    private Vector3 direction;
 
     [Header("AI")]
     public float agroDistance;
-    private NavMeshAgent agent;
     private Transform player;
     private bool chasingPlayer;
 
     void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
+        collider = GetComponent<CapsuleCollider>();
     }
 
     void Start()
     {
         anim = mesh.GetComponent<Animator>();
-        if (waypoints.Length > 0)
-        {
-            agent.SetDestination(waypoints[0].position);
-            nextPosIndex++;
-        }
-
         player = FindObjectOfType<Player>().gameObject.transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (CheckPlayer())
+        if (nextPosIndex >= waypoints.Length)
         {
-            ChasePlayer();
+            nextPosIndex = 0;
         }
 
-        MonsterMove();
+        if (waypoints.Length > 0)
+        {
+            direction = waypoints[nextPosIndex].position - transform.position;
+            direction.y = 0;
+        }
+
+        if (CheckPlayer())
+        {
+            
+        }
+
+        if(!isWaiting)
+            MonsterMove();
     }
+
     private bool CheckPlayer()
     {
         Debug.DrawLine(transform.position, transform.position + (player.position - transform.position).normalized * agroDistance, Color.red);
@@ -73,59 +82,46 @@ public class Monster : MonoBehaviour
         return false;
     }
 
-    public void GoTo(Vector3 position)
-    {
-        agent.SetDestination(position);
-    }
-
-    IEnumerator WaitBeforeGo(Vector3 nextPosition)
-    {
-        isWaiting = true;
-        yield return new WaitForSeconds(waitBeforeMoving);
-        GoTo(nextPosition);
-        yield return new WaitForSeconds(.25f);
-        isWaiting = false;
-    }
-
-    public void MonsterMove()
-    {
-        if (nextPosIndex >= waypoints.Length)
-        {
-            nextPosIndex = 0;
-        }
-
-        if (waypoints.Length > 0 && agent.velocity == Vector3.zero && !isWaiting)
-        {
-            StartCoroutine(WaitBeforeGo(waypoints[nextPosIndex].position));
-            nextPosIndex++;
-            audioManager.MonsterStop();
-        }
-
-        anim.SetFloat("Speed", agent.velocity.magnitude);
-        audioManager.MonsterBreathAndWalk();
-    }
-
     public void CandyAlert(Vector3 position)
     {
-        if (!chasingPlayer)
-        {
-            StopAllCoroutines();
-            GoTo(position);
-            isWaiting = false;
-        }
+        //if (!chasingPlayer)
+        //{
+        //    StopAllCoroutines();
+        //    GoTo(position);
+        //    isWaiting = false;
+        //}
     }
 
-    private void ChasePlayer()
+    private void MonsterMove()
     {
-        StopAllCoroutines();
-        GoTo(player.position);
+        Vector3 velocity = direction.normalized * Time.deltaTime * speed;
+
+        if (direction.sqrMagnitude <= 0.25f || ObstacleInFront())
+        {
+            velocity = Vector3.zero;
+            isWaiting = true;
+            StartCoroutine(WaitThenGo(waitBeforeMoving));
+        }
+
+        transform.position += new Vector3(velocity.x, 0, velocity.z);
+        transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
     }
 
-    void OnTriggerStay(Collider other)
+    private bool ObstacleInFront()
     {
-        if (other.gameObject.CompareTag("Tombe"))
+        Debug.DrawLine(collider.bounds.center, collider.bounds.center + transform.forward * (collider.bounds.extents.x + 0.1f), Color.red);
+        return (Physics.Raycast(collider.bounds.center, transform.forward, collider.bounds.extents.x + 0.1f));
+    }
+
+    IEnumerator WaitThenGo(float waitTime)
+    {
+        if (waypoints.Length > 0)
         {
-            Debug.Log("yo");
+            nextPosIndex++;
         }
+
+        yield return new WaitForSeconds(waitTime);
+        isWaiting = false;
+        StopCoroutine(WaitThenGo(0));
     }
 }
