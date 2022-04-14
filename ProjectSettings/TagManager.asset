@@ -11,6 +11,7 @@ TagManager:
   - Monster
   - LampCharge
   - AudioManager
+  - HardSurface
   layers:
   - Default
   - TransparentFX

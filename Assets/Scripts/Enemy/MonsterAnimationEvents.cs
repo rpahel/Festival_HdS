@@ -5,22 +5,9 @@ using UnityEngine;
 public class MonsterAnimationEvents : MonoBehaviour
 {
     public Monster monster;
-    private AudioManager audioManager;
 
-    private void Start()
+    public void AttackImpact()
     {
-        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-    }
-
-    private void Update()
-    {
-        MonsterMove();
-    }
-
-    public void MonsterMove()
-    {
-        monster.MonsterMove();
-        audioManager.MonsterBreathAndWalk();
 
     }
 }
