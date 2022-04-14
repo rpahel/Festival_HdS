@@ -54,9 +54,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 89ba4ed41bbe96b49956c30b8a7efc88, type: 3}
   - {fileID: 8300000, guid: 7f7f3c528ec809b4eb170f8b2dad464c, type: 3}
   - {fileID: 8300000, guid: d85604bacbb350b4b902344f109a1629, type: 3}
+  - {fileID: 8300000, guid: 26092a1eab9aa444e80598c5cc7cccec, type: 3}
   audioClipPhone:
   - {fileID: 8300000, guid: d070b625c3790c946b4bd35d0446c2ca, type: 3}
   audioClipDoll: []
+  audioClipDoor:
+  - {fileID: 8300000, guid: da9a448f72a24314e8e5c6b43356df66, type: 3}
 --- !u!82 &3064618904684971954
 AudioSource:
   m_ObjectHideFlags: 0

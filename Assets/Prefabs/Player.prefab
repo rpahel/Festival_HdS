@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97f1bc916497c754396b900f15741c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 0}
   walkSpeed: 2
   runSpeed: 5
   jumpHeight: 3
@@ -151,7 +152,7 @@ MonoBehaviour:
   armPivot: {fileID: 7254067783337193091}
   leftArm: {fileID: 7254067784753820613}
   rightArm: {fileID: 7254067783390323548}
-  lampStaminaBar: {fileID: 7677179718383929492, guid: c1a171f3178ecc84991c7caafaf11a65, type: 3}
+  lampStaminaBar: {fileID: 0}
   lamp1: {fileID: 4294756854791821397}
   lamp2: {fileID: 3954608600378528926}
   speedStaminaDown: 1
