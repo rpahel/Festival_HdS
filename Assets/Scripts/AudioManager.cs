@@ -171,4 +171,24 @@ public class AudioManager : MonoBehaviour
     }
 
     #endregion
+
+    #region DoorSounds
+
+    public void DoorOpening()
+    {
+        if (!audioSourceDoor[0].isPlaying)
+        {
+            audioSourceDoor[0].Play();
+        }
+    }
+
+    public void DoorLocked()
+    {
+        if (!audioSourceDoor[1].isPlaying)
+        {
+            audioSourceDoor[1].Play();
+        }
+    }
+
+    #endregion
 }

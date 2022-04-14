@@ -9,7 +9,7 @@ public class Door : MonoBehaviour
     private float alpha;
     private Quaternion iniRot;
     private Quaternion finalRot;
-    private AudioSource audioSourceDoor;
+    private AudioManager audioManager;
     public bool isLeftDoor;
     public bool isLocked;
     public float openingSpeed;
@@ -17,8 +17,8 @@ public class Door : MonoBehaviour
 
     private void Start()
     {
-        audioSourceDoor = gameObject.AddComponent<AudioSource>();
-
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        
         iniRot = Quaternion.Euler(0, -90, 0);
 
         if (isLeftDoor)
@@ -37,6 +37,10 @@ public class Door : MonoBehaviour
         {
             alpha = 0;
             isOpen = !isOpen;
+            audioManager.DoorOpening();
+        } else if(Input.GetButtonDown("Interact") && canInteract && isLocked)
+        {
+            audioManager.DoorLocked();
         }
 
         alpha += Time.deltaTime * openingSpeed;
@@ -45,11 +49,6 @@ public class Door : MonoBehaviour
         if (isOpen)
         {
             transform.rotation = Quaternion.Lerp(iniRot, finalRot, alpha);
-            audioSourceDoor.clip = AudioManager.Instance.audioClipDoor[0];
-            if (!audioSourceDoor.isPlaying)
-            {
-                audioSourceDoor.Play();
-            }
         }
         else
         {
