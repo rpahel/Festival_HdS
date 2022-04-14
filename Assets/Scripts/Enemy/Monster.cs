@@ -8,7 +8,7 @@ public class Monster : MonoBehaviour
     private NavMeshAgent agent;
     private Animator anim;
     public GameObject mesh;
-    
+    private AudioManager audioManager;
 
     [Header("Movement")]
     public Transform[] waypoints;
@@ -19,10 +19,12 @@ public class Monster : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+
     }
 
     void Start()
     {
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         anim = mesh.GetComponent<Animator>();
         if (waypoints.Length > 0)
         {
@@ -62,8 +64,10 @@ public class Monster : MonoBehaviour
         {
             StartCoroutine(WaitBeforeGo(waypoints[nextPosIndex].position));
             nextPosIndex++;
+            audioManager.MonsterStop();
         }
 
         anim.SetFloat("Speed", agent.velocity.magnitude);
+
     }
 }

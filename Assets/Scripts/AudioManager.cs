@@ -47,13 +47,16 @@ public class AudioManager : MonoBehaviour
         audioSourceDoor = new AudioSource[audioClipDoor.Count];
     }
 
-    // Start is called before the first frame update
+    // Audio initialisation
     void Start()
     {
         for(int i = 0; i < audioClipMonstre.Count; i++)
         {
             audioSourceMonsters[i] = gameObject.AddComponent<AudioSource>();
             audioSourceMonsters[i].outputAudioMixerGroup = audioMixer;
+            audioSourceMonsters[i].volume = 0.1f;
+            audioSourceMonsters[i].spatialBlend = 1;
+            audioSourceMonsters[i].rolloffMode = AudioRolloffMode.Linear;
             audioSourceMonsters[i].clip = audioClipMonstre[i];
 
         }
@@ -94,10 +97,12 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    #region MonsterSounds
     public void MonsterBreathAndWalk()
     {
         for(int i = 0; i < audioSourceMonsters.Length; i++)
         {
+            
             if (!audioSourceMonsters[i].isPlaying)
             {
                 audioSourceMonsters[i].Play();
@@ -105,6 +110,20 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void MonsterStop()
+    {
+        for (int i = 0; i < audioSourceMonsters.Length; i++)
+        {
+            if (audioSourceMonsters[i].isPlaying)
+            {
+                audioSourceMonsters[i].Stop();
+            }
+        }
+    }
+
+    #endregion
+
+    #region PlayerSounds
     public void PlayerWalk()
     {
         if (!audioSourcePlayer[0].isPlaying)
@@ -140,4 +159,5 @@ public class AudioManager : MonoBehaviour
     {
         audioSourcePlayer[1].Play();
     }
+    #endregion
 }

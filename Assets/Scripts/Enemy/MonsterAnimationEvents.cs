@@ -5,20 +5,11 @@ using UnityEngine;
 public class MonsterAnimationEvents : MonoBehaviour
 {
     public Monster monster;
-    private AudioSource audioSourceMonsterBreathe;
-    private AudioSource audioSourceMonsterWalk;
+    private AudioManager audioManager;
 
     private void Start()
     {
-        audioSourceMonsterWalk = gameObject.AddComponent<AudioSource>();
-        audioSourceMonsterBreathe = gameObject.AddComponent<AudioSource>();
-
-        audioSourceMonsterBreathe.maxDistance = 25f;
-        audioSourceMonsterWalk.maxDistance = 25f;
-        audioSourceMonsterBreathe.spatialBlend = 1;
-        audioSourceMonsterWalk.spatialBlend = 1;
-        audioSourceMonsterBreathe.rolloffMode = AudioRolloffMode.Linear;
-        audioSourceMonsterWalk.rolloffMode = AudioRolloffMode.Linear;
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
     private void Update()
@@ -29,21 +20,7 @@ public class MonsterAnimationEvents : MonoBehaviour
     public void MonsterMove()
     {
         monster.MonsterMove();
+        audioManager.MonsterBreathAndWalk();
 
-        audioSourceMonsterBreathe.clip = AudioManager.Instance.audioClipMonstre[0];
-        
-        if (!audioSourceMonsterBreathe.isPlaying)
-        {
-            audioSourceMonsterBreathe.volume = 0.1f;
-            audioSourceMonsterBreathe.Play();
-        }
-
-        audioSourceMonsterWalk.clip = AudioManager.Instance.audioClipMonstre[1];
-        if (!audioSourceMonsterWalk.isPlaying)
-        {
-
-            audioSourceMonsterWalk.volume = 0.1f;
-            audioSourceMonsterWalk.Play();
-        }
     }
 }
