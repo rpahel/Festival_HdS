@@ -5,7 +5,11 @@ using UnityEngine.UIElements;
 
 public class Doll : MonoBehaviour
 {
-    [Header("Item floating.")]
+    [Header("Materials")]
+    public Material[] materials;
+    [HideInInspector] public int id;
+
+    [Header("Item floating")]
     [SerializeField] private float speed;
     [SerializeField] private float amplitude;
     [SerializeField] private float rotSpeed;
@@ -17,9 +21,14 @@ public class Doll : MonoBehaviour
     private void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-
         yIniPos = transform.position.y;
     }
+
+    private void Start()
+    {
+        GetComponent<MeshRenderer>().material = materials[id];
+    }
+
     private void Update()
     {
         transform.position = new Vector3(transform.position.x, yIniPos + Mathf.Sin(Time.time * speed) * amplitude, transform.position.z);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EvaManager : MonoBehaviour
 {
@@ -9,7 +10,10 @@ public class EvaManager : MonoBehaviour
 
     [Header("Player")]
     public GameObject player;
+    [HideInInspector] public Player playerScript;
     public Transform playerSpawn;
+    public Slider lampStaminaBar;
+    public Camera mainCam;
 
     [Header("Monsters")]
     public GameObject monster;
@@ -27,6 +31,12 @@ public class EvaManager : MonoBehaviour
 
     void Start()
     {
+        GameObject playerClone = Instantiate(player, playerSpawn.position, Quaternion.identity);
+        playerScript = playerClone.GetComponent<Player>();
+        playerScript.manager = this;
+        playerScript.lampStaminaBar = lampStaminaBar;
+        playerScript.mainCam = mainCam;
+
         for (int i = 0; i < monstersSpawn.Length; i++)
         {
             GameObject monsterClone = Instantiate(monster, monstersSpawn[i].position, monstersSpawn[i].rotation);
@@ -70,6 +80,7 @@ public class EvaManager : MonoBehaviour
         for (int i = 0; i < dollSpawn.Length; i++)
         {
             GameObject dollClone = Instantiate(doll, dollSpawn[i].position, Quaternion.identity);
+            dollClone.GetComponent<Doll>().id = i;
             dolls.Add(dollClone.GetComponent<Doll>());
         }
     }

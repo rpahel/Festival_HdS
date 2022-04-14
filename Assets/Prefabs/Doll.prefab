@@ -97,6 +97,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5217c3a364d2f504e9a7494eccadc6a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: a308a2c6f13e56540bab975d46dfa11c, type: 2}
+  - {fileID: 2100000, guid: 9189a112fd5f4ef4dba74997f34d3136, type: 2}
+  - {fileID: 2100000, guid: 2c2cdfaec773519469d4c1d146e18399, type: 2}
+  - {fileID: 2100000, guid: b2483dfcfc8d95a4abf3e583fc49ec5f, type: 2}
+  id: 0
   speed: 2
   amplitude: 0.1
   rotSpeed: 100
