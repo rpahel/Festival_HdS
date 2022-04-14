@@ -215,5 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mesh: {fileID: 1013936946406082679}
+  manager: {fileID: 0}
+  audioManager: {fileID: 0}
   waypoints: []
   waitBeforeMoving: 2

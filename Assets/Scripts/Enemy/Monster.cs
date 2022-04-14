@@ -5,10 +5,12 @@ using UnityEngine.AI;
 
 public class Monster : MonoBehaviour
 {
-    private NavMeshAgent agent;
     private Animator anim;
     public GameObject mesh;
-    private AudioManager audioManager;
+
+    [Header("Managers")]
+    public EvaManager manager;
+    public AudioManager audioManager;
 
     [Header("Movement")]
     public Transform[] waypoints;
@@ -16,15 +18,18 @@ public class Monster : MonoBehaviour
     private bool isWaiting;
     private int nextPosIndex;
 
+
+    [Header("AI")]
+    private NavMeshAgent agent;
+    private bool chasingPlayer;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-
     }
 
     void Start()
     {
-        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         anim = mesh.GetComponent<Animator>();
         if (waypoints.Length > 0)
         {
@@ -36,7 +41,7 @@ public class Monster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //MonsterMove();
+        MonsterMove();
     }
 
     public void GoTo(Vector3 position)
@@ -68,6 +73,16 @@ public class Monster : MonoBehaviour
         }
 
         anim.SetFloat("Speed", agent.velocity.magnitude);
+        audioManager.MonsterBreathAndWalk();
+    }
 
+    public void CandyAlert(Vector3 position)
+    {
+        if (!chasingPlayer)
+        {
+            StopAllCoroutines();
+            GoTo(position);
+            isWaiting = false;
+        }
     }
 }

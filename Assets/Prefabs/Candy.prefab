@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2692915843828498841}
   - component: {fileID: 820763689959378859}
   - component: {fileID: 2692915843828498846}
+  - component: {fileID: 5821233911813546702}
   m_Layer: 0
   m_Name: Candy
   m_TagString: Untagged
@@ -128,3 +129,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &5821233911813546702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2692915843828498847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d843105c35a333448df97bae0a52b34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundDistance: 10

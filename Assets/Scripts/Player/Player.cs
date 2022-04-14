@@ -94,6 +94,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+
         if (!ventActivated)
         {
             mousePos = (mainCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)) - armPivot.transform.position).normalized;
@@ -157,7 +158,7 @@ public class Player : MonoBehaviour
             }
         } 
 
-        if (transform.position.x <= -4.6f || transform.position.x >= 3.93f)
+        if (transform.position.x <= -4.6f || transform.position.x >= 4f)
         {
             mainCam.transform.position = new Vector3(transform.position.x, transform.position.y + 1f, mainCam.transform.position.z);
         }
@@ -212,7 +213,7 @@ public class Player : MonoBehaviour
             leftArm.SetActive(false);
         }
 
-        if (playerController.velocity.sqrMagnitude > 10)
+        if (playerController.velocity.sqrMagnitude > 20)
         {
             if (mousePos.x >= 0)
             {
