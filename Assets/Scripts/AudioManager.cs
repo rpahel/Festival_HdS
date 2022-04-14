@@ -29,6 +29,9 @@ public class AudioManager : MonoBehaviour
 
     [Header("Doll")]
     public List<AudioClip> audioClipDoll;
+    
+    [Header("Door")]
+    public List<AudioClip> audioClipDoor;
 
     // Start is called before the first frame update
     void Start()

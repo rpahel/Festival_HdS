@@ -54,6 +54,7 @@ public class Player : MonoBehaviour
     [Header("Camera")]
     public Camera mainCam;
     private float cameraXValueToKeep;
+    private AudioSource audioSourceCam;
 
     [Header("Audio")]
     private AudioSource audioSourcePlayer;
@@ -77,6 +78,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        audioSourceCam = gameObject.AddComponent<AudioSource>();
+
         leftArmMesh = leftArm.GetComponent<MeshRenderer>();
         rightArmMesh = rightArm.GetComponent<MeshRenderer>();
 
@@ -318,9 +321,19 @@ public class Player : MonoBehaviour
         if (lampStaminaBar.value <= 0)
         {
             Camera.main.fieldOfView -= Time.deltaTime * zoomSpeed;
+            if(audioSourceCam.clip == null)
+            {
+                audioSourceCam.clip = AudioManager.Instance.audioClipPlayer[4];
+            }
+            if (!audioSourceCam.isPlaying)
+            {
+                audioSourceCam.pitch = 0.6f;
+                audioSourceCam.Play();
+            }
         }
         else
         {
+            audioSourceCam.Stop();
             Camera.main.fieldOfView = 32.8f;
         }
     }
