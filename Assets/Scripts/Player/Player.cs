@@ -158,7 +158,7 @@ public class Player : MonoBehaviour
             }
         } 
 
-        if (transform.position.x <= -4.6f || transform.position.x >= 4f)
+        if (transform.position.x <= -4.6f || transform.position.x >= 4.6f)
         {
             mainCam.transform.position = new Vector3(transform.position.x, transform.position.y + 1f, mainCam.transform.position.z);
         }
