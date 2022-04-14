@@ -7,13 +7,12 @@ public class AudioManager : MonoBehaviour
     private static AudioManager instance;
     public static AudioManager Instance { get { return instance; } }
 
-    private void Awake()
-    {
-        if(instance == null)
-            instance = this;    
-    }
-
-    private AudioSource audioSource;
+    private AudioSource[] audioSourceMonsters;
+    private AudioSource[] audioSourcePlayer;
+    private AudioSource[] audioSourceAmbiance;
+    private AudioSource[] audioSourcePhone;
+    private AudioSource[] audioSourceDoll;
+    private AudioSource[] audioSourceDoor;
 
     [Header("Monstre")]
     public List<AudioClip> audioClipMonstre;
@@ -33,9 +32,98 @@ public class AudioManager : MonoBehaviour
     [Header("Door")]
     public List<AudioClip> audioClipDoor;
 
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        audioSourceMonsters = new AudioSource[audioClipMonstre.Count];
+        audioSourcePlayer = new AudioSource[audioClipPlayer.Count];
+        audioSourceAmbiance = new AudioSource[audioClipAmbiance.Count];
+        audioSourcePhone = new AudioSource[audioClipPhone.Count];
+        audioSourceDoll = new AudioSource[audioClipDoll.Count];
+        audioSourceDoor = new AudioSource[audioClipDoor.Count];
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        for(int i = 0; i < audioClipMonstre.Count; i++)
+        {
+            audioSourceMonsters[i] = gameObject.AddComponent<AudioSource>();
+            audioSourceMonsters[i].clip = audioClipMonstre[i];
+
+        }
+        for (int i = 0; i < audioClipPlayer.Count; i++)
+        {
+            audioSourcePlayer[i] = gameObject.AddComponent<AudioSource>();
+            audioSourcePlayer[i].clip = audioClipPlayer[i];
+
+        }
+        for (int i = 0; i < audioClipAmbiance.Count; i++)
+        {
+            audioSourceAmbiance[i] = gameObject.AddComponent<AudioSource>();
+            audioSourceAmbiance[i].clip = audioClipAmbiance[i];
+
+        }
+        for (int i = 0; i < audioClipPhone.Count; i++)
+        {
+            audioSourcePhone[i] = gameObject.AddComponent<AudioSource>();
+            audioSourcePhone[i].clip = audioClipPhone[i];
+
+        }
+        for (int i = 0; i < audioClipDoll.Count; i++)
+        {
+            audioSourceDoll[i] = gameObject.AddComponent<AudioSource>();
+            audioSourceDoll[i].clip = audioClipDoll[i];
+
+        }
+        for (int i = 0; i < audioClipDoor.Count; i++)
+        {
+            audioSourceDoor[i] = gameObject.AddComponent<AudioSource>();
+            audioSourceDoor[i].clip = audioClipDoor[i];
+
+        }
+    }
+
+    public void MonsterBreathAndWalk()
+    {
+        for(int i = 0; i < audioSourceMonsters.Length; i++)
+        {
+            if (!audioSourceMonsters[i].isPlaying)
+            {
+                audioSourceMonsters[i].Play();
+            }
+        }
+    }
+
+    public void PlayerWalk()
+    {
+        if (!audioSourcePlayer[0].isPlaying)
+        {
+            audioSourcePlayer[0].Play();
+            audioSourcePlayer[0].pitch = 1.3f;
+        }
+    }
+
+    public void PlayerRun()
+    {
+        if (!audioSourcePlayer[0].isPlaying)
+        {
+            audioSourcePlayer[0].Play();
+            audioSourcePlayer[0].pitch = 2f;
+        }
+    }
+
+    public void StopPlayerWalk()
+    {
+        if(audioSourcePlayer[0].clip != null && audioSourcePlayer[0].isPlaying)
+        {
+            audioSourcePlayer[0].Stop();
+        }
+    }
+
+    public void LightOnAndOff()
+    {
+        audioSourcePlayer[3].Play();
     }
 }

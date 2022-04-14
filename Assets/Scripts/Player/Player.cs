@@ -57,8 +57,7 @@ public class Player : MonoBehaviour
     private AudioSource audioSourceCam;
 
     [Header("Audio")]
-    private AudioSource audioSourcePlayer;
-    private AudioSource audioSourceLightPlayer;
+    private AudioManager audioManager;
 
     [Header("Vent")]
     private Vector3 destination;
@@ -70,8 +69,7 @@ public class Player : MonoBehaviour
         playerController = GetComponent<CharacterController>();
         lrTraj = GetComponent<LineRenderer>();
         playerCollider = GetComponent<Collider>();
-        audioSourcePlayer = GetComponent<AudioSource>();
-        audioSourceLightPlayer = gameObject.AddComponent<AudioSource>();
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         rb = GetComponent<Rigidbody>();
         canThrow = true;
     }
@@ -92,6 +90,8 @@ public class Player : MonoBehaviour
 
         lampStaminaBar.maxValue = maxValueStamina;
         lampStaminaBar.value = lampStaminaBar.maxValue;
+
+
     }
 
     private void Update()
@@ -145,27 +145,19 @@ public class Player : MonoBehaviour
         //Footsteps
         if (playerController.velocity == Vector3.zero)
         {
-            if(audioSourcePlayer.clip != null)
-                audioSourcePlayer.Stop();
-
-            audioSourcePlayer.clip = null;
+            audioManager.StopPlayerWalk();
         }
         else
         {
-            audioSourcePlayer.clip = AudioManager.Instance.audioClipPlayer[0];
-            
-            if (!audioSourcePlayer.isPlaying && audioSourcePlayer.clip != null)
+            if (playerController.velocity.magnitude <= 2f)
             {
-                audioSourcePlayer.Play();
-                if(playerController.velocity.magnitude <= 2f)
-                {
-                    audioSourcePlayer.pitch = 1.3f;
-                } else if(playerController.velocity.magnitude > 2.2f)
-                {
-                    audioSourcePlayer.pitch = 2f;
-                }
-            } 
-        }
+                audioManager.PlayerWalk();
+            }
+            else if (playerController.velocity.magnitude > 2.2f)
+            {
+                audioManager.PlayerRun();
+            }
+        } 
 
         if (transform.position.x <= -4.6f || transform.position.x >= 3.93f)
         {
@@ -281,8 +273,7 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Lamp") && canBePressed)
         {
             isPressed = !isPressed;
-            audioSourceLightPlayer.clip = AudioManager.Instance.audioClipPlayer[3];
-            audioSourceLightPlayer.Play();
+            audioManager.LightOnAndOff();
         }
 
         if (isPressed && lampStaminaBar.value > 0)
