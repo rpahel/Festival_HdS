@@ -6,20 +6,24 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
     public GameObject settingsMenu;
-    bool menuIsOpen = false;
+    bool pauseMenuIsOpen = false;
+    public bool settingsMenuIsOpen = false;
 
     private void Update()
     {
         if(Input.GetKeyUp(KeyCode.Escape))
         {
-            menuIsOpen = !menuIsOpen;
-            pauseMenu.SetActive(menuIsOpen);
+            pauseMenuIsOpen = !pauseMenuIsOpen;
+
+            if(!settingsMenuIsOpen)
+                pauseMenu.SetActive(pauseMenuIsOpen);
         }
 
     }
     public void Options()
     {
         settingsMenu.SetActive(true);
+        settingsMenuIsOpen = true;
     }
 
     public void Quit()

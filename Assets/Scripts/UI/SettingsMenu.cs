@@ -6,9 +6,12 @@ using UnityEngine.Audio;
 
 public class SettingsMenu : MonoBehaviour
 {
+    public GameObject settingsMenu;
     public AudioMixer audioMixer;
     public TMPro.TMP_Dropdown dropdown;
     public TMPro.TMP_Dropdown resolutionDropdown;
+
+    public PauseMenu pauseMenu;
 
     Resolution[] resolutions;
 
@@ -54,5 +57,11 @@ public class SettingsMenu : MonoBehaviour
     public void SetFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
+    }
+
+    public void HideMenu()
+    {
+        pauseMenu.settingsMenuIsOpen = false;
+        settingsMenu.SetActive(false);
     }
 }
