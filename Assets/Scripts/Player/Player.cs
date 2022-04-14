@@ -347,6 +347,7 @@ public class Player : MonoBehaviour
         if (isGrounded(.1f))
         {
             jumpDir.y = Mathf.Sqrt(jumpHeight * -3.0f * -9.81f);
+            audioManager.Jump();
         }
     }
 

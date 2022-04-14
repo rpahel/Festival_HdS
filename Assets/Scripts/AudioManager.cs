@@ -140,6 +140,22 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void Jump()
+    {
+        if (!audioSourcePlayer[6].isPlaying)
+        {
+            audioSourcePlayer[6].Play();
+        }
+    }
+
+    public void LandingJump()
+    {
+        if (!audioSourcePlayer[7].isPlaying)
+        {
+            audioSourcePlayer[7].Play();
+        }
+    }
+
     public void LightOnAndOff()
     {
         audioSourcePlayer[3].Play();
