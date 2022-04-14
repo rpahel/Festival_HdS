@@ -145,6 +145,14 @@ public class AudioManager : MonoBehaviour
         audioSourcePlayer[3].Play();
     }
 
+    public void ReloadLight()
+    {
+        if (!audioSourcePlayer[5].isPlaying)
+        {
+            audioSourcePlayer[5].Play();
+        }
+    }
+
     public void PlayThrowCandy()
     {
         audioSourcePlayer[1].Play();

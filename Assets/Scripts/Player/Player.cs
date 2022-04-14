@@ -317,6 +317,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("LampCharge"))
         {
             lampStaminaBar.value += valueReload;
+            audioManager.ReloadLight();
             Destroy(other.gameObject);
         }
     }
