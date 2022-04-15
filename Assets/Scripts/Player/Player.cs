@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public EvaManager manager;
     private bool godMode;
     [HideInInspector] public bool onPhone;
+    [HideInInspector] public bool isPaused;
 
     [Header("Movement")]
     public float walkSpeed = 2f;
@@ -102,7 +103,7 @@ public class Player : MonoBehaviour
             StaminaManager();
         }
 
-        if (isDead)
+        if (isDead || isPaused)
         {
             return;
         }

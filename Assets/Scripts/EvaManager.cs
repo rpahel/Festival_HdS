@@ -100,4 +100,9 @@ public class EvaManager : MonoBehaviour
         playerScript.mainCam = mainCam;
         spawnedPlayer = playerClone;
     }
+
+    public void Pause()
+    {
+        playerScript.isPaused = !playerScript.isPaused;
+    }
 }
