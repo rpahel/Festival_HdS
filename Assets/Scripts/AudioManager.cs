@@ -106,6 +106,8 @@ public class AudioManager : MonoBehaviour
         scene = SceneManager.GetActiveScene();
 
         audioSourceAmbiance[0].Play();
+        audioSourcePhone[0].volume = 0.5f;
+
     }
 
 
@@ -276,14 +278,13 @@ public class AudioManager : MonoBehaviour
     {
         if (!audioSourcePhone[0].isPlaying)
         {
-            audioSourcePhone[0].volume = 0.5f;
             audioSourcePhone[0].Play();
         }
     }
 
     public void StopRingingSound()
     {
-        audioSourcePhone[0].clip = null;
+        audioSourcePhone[0].Stop();
     }
 
     #endregion
