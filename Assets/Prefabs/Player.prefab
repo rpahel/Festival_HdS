@@ -156,7 +156,7 @@ MonoBehaviour:
   lamp1: {fileID: 4294756854791821397}
   lamp2: {fileID: 3954608600378528926}
   speedStaminaDown: 1
-  maxValueStamina: 30
+  maxValueStamina: 50
   valueReload: 20
   zoomSpeed: 1.5
   candy: {fileID: 2692915843828498847, guid: f4ce2d61a56c3fe40ae911b34cfe0422, type: 3}
