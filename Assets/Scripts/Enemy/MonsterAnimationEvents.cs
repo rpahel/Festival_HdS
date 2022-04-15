@@ -8,6 +8,6 @@ public class MonsterAnimationEvents : MonoBehaviour
 
     public void AttackImpact()
     {
-
+        monster.Attack();
     }
 }

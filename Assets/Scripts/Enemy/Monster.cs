@@ -15,19 +15,21 @@ public class Monster : MonoBehaviour
 
     [Header("Movement")]
     public Transform[] waypoints;
-    public float waitBeforeMoving;
-    private bool isWaiting;
     private int nextPosIndex;
     public float speed;
     private CapsuleCollider coll;
     private Vector3 direction;
-    private bool heardCandy;
     private Vector3 candyPos;
 
     [Header("AI")]
+    public float waitBeforeMoving;
+    private bool isWaiting;
     public float agroDistance;
+    private bool heardCandy;
     private Transform player;
-    private bool chasingPlayer;
+
+    [Header("Attack")]
+    private bool playerInRange;
 
     void Awake()
     {
@@ -84,13 +86,10 @@ public class Monster : MonoBehaviour
             {
                 if (hit.collider.gameObject.CompareTag("Player"))
                 {
-                    chasingPlayer = true;
                     return true;
                 }
             }
         }
-    
-        chasingPlayer = false;
         return false;
     }
 
@@ -104,10 +103,12 @@ public class Monster : MonoBehaviour
     private void MonsterMove()
     {
         Vector3 velocity = direction.normalized * Time.deltaTime * speed;
+        anim.SetFloat("Speed", 1f);
 
         if (direction.sqrMagnitude <= 0.25f || ObstacleInFront())
         {
             velocity = Vector3.zero;
+            anim.SetFloat("Speed", 0);
             if (!heardCandy)
             {
                 isWaiting = true;
@@ -118,6 +119,7 @@ public class Monster : MonoBehaviour
         transform.position += new Vector3(velocity.x, 0, velocity.z);
         if(direction != Vector3.zero)
             transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+
     }
 
     private bool ObstacleInFront()
@@ -143,5 +145,30 @@ public class Monster : MonoBehaviour
         yield return new WaitForSeconds(5f);
         heardCandy = false;
         StopCoroutine(Forget());
+    }
+
+    public void Attack()
+    {
+        if (playerInRange)
+        {
+            Debug.Log("Mort");
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            playerInRange = true;
+            anim.SetTrigger("Attack");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            playerInRange = false;
+        }
     }
 }
