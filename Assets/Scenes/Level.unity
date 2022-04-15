@@ -4838,7 +4838,7 @@ MonoBehaviour:
   player: {fileID: 7254067783307419053, guid: 438709976aaa1334ca00a458fa0c0be0, type: 3}
   playerScript: {fileID: 0}
   playerSpawn: {fileID: 641371598}
-  lampStaminaBar: {fileID: 1832755969}
+  lampStaminaBar: {fileID: 1751362303}
   mainCam: {fileID: 1942277289}
   monster: {fileID: 3216167505327395403, guid: 81c3f968a1e31774c80deeb19d869cfd, type: 3}
   monsters: []
@@ -19763,6 +19763,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7677179718383929495, guid: c1a171f3178ecc84991c7caafaf11a65, type: 3}
   m_PrefabInstance: {fileID: 1751362301}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1751362303 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7677179718383929492, guid: c1a171f3178ecc84991c7caafaf11a65, type: 3}
+  m_PrefabInstance: {fileID: 1751362301}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1754115705
 GameObject:
   m_ObjectHideFlags: 0
@@ -20613,17 +20624,6 @@ PrefabInstance:
       objectReference: {fileID: 710008437}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b2347fb3c233974da81570a2a2fafcb, type: 3}
---- !u!114 &1832755969 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7677179718383929492, guid: c1a171f3178ecc84991c7caafaf11a65, type: 3}
-  m_PrefabInstance: {fileID: 1751362301}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1833652756
 GameObject:
   m_ObjectHideFlags: 0
