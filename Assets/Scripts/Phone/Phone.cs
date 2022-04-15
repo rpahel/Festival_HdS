@@ -8,10 +8,17 @@ public class Phone : MonoBehaviour
     private GameObject player;
     public GameObject phone2_1;
     public GameObject phone2_2;
+    private AudioManager audioManager;
 
     private void Start()
     {
         manager = FindObjectOfType<EvaManager>();
+
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+
+        audioManager.PlayRingingPhone();
     }
 
     private void Update()
@@ -30,6 +37,7 @@ public class Phone : MonoBehaviour
                 manager.playerScript.animPlayer.SetBool("FaceLeft", false);
             }
             manager.playerScript.animPlayer.SetTrigger("onPhone");
+            audioManager.StopRingingSound();
             player.transform.position = new Vector3((transform.position + transform.right * .75f).x, player.transform.position.y, transform.position.z);
             manager.playerSpawn.position = transform.position + transform.right * .75f;
             StartCoroutine(PhoneStuff());
