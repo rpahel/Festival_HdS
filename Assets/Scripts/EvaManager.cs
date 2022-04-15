@@ -78,6 +78,7 @@ public class EvaManager : MonoBehaviour
         {
             GameObject dollClone = Instantiate(doll, dollSpawn[i].position, Quaternion.identity);
             dollClone.GetComponent<Doll>().id = i;
+            dollClone.GetComponent<Doll>().manager = this;
             dolls.Add(dollClone.GetComponent<Doll>());
         }
     }

@@ -15,6 +15,7 @@ public class Doll : MonoBehaviour
     [SerializeField] private float rotSpeed;
     private float yIniPos;
 
+    [HideInInspector] public EvaManager manager;
     private AudioManager audioManager;
 
     // Update is called once per frame
@@ -40,6 +41,7 @@ public class Doll : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             audioManager.FindDoll();
+            manager.playerSpawn.position = other.gameObject.transform.position;
             Destroy(gameObject);
         }
     }

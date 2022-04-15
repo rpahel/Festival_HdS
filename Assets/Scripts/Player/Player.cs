@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
 
     [Header("GameManager")]
     public EvaManager manager;
+    private bool godMode;
 
     [Header("Movement")]
     public float walkSpeed = 2f;
@@ -79,7 +80,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-
         leftArmMesh = leftArm.GetComponent<MeshRenderer>();
         rightArmMesh = rightArm.GetComponent<MeshRenderer>();
 
@@ -92,8 +92,6 @@ public class Player : MonoBehaviour
 
         lampStaminaBar.maxValue = maxValueStamina;
         lampStaminaBar.value = lampStaminaBar.maxValue;
-
-
     }
 
     private void Update()
@@ -101,6 +99,25 @@ public class Player : MonoBehaviour
         if (isDead)
         {
             return;
+        }
+
+        if (Input.GetKey(KeyCode.Y) && Input.GetKey(KeyCode.N) && Input.GetKey(KeyCode.O) && Input.GetKeyDown(KeyCode.V))
+        {
+            godMode = !godMode;
+
+            if (godMode)
+            {
+                Debug.Log("GodMode is Enabled.");
+            }
+            else
+            {
+                Debug.Log("GodMode is Disabled.");
+            }
+        }
+
+        if (Input.GetKey(KeyCode.Alpha0))
+        {
+            Death();
         }
 
         if (mainCam.fieldOfView <= 0.7f)
@@ -151,6 +168,11 @@ public class Player : MonoBehaviour
                 audioManager.CandyLanding();
                 StartCoroutine(SoundIsPlaying());
             }
+        }
+
+        if (godMode)
+        {
+            lampStaminaBar.value = maxValueStamina;
         }
     }
 
@@ -421,6 +443,12 @@ public class Player : MonoBehaviour
 
     public void Death()
     {
+        if (godMode)
+        {
+            Debug.Log("You are in god mode and therefore can't die.");
+            return;
+        }
+
         if (!isDead)
         {
             isDead = true;
