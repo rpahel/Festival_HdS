@@ -301,13 +301,14 @@ public class Player : MonoBehaviour
 
         if (lampStaminaBar.value <= 0)
         {
-            Camera.main.fieldOfView -= Time.deltaTime * zoomSpeed;
+            mainCam.fieldOfView -= Time.deltaTime * zoomSpeed;
+            mainCam.transform.position = new Vector3(mainCam.transform.position.x, transform.position.y + (mainCam.fieldOfView / 32.8f) + 1 / (mainCam.fieldOfView + 0.01f), mainCam.transform.position.z);
             audioManager.CamZooming();
         }
         else
         {
             audioManager.CamNotZooming();
-            Camera.main.fieldOfView = 32.8f;
+            mainCam.fieldOfView = 32.8f;
         }
     }
 
