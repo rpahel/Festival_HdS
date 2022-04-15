@@ -19,8 +19,10 @@ public class Monster : MonoBehaviour
     private bool isWaiting;
     private int nextPosIndex;
     public float speed;
-    private CapsuleCollider collider;
+    private CapsuleCollider coll;
     private Vector3 direction;
+    private bool heardCandy;
+    private Vector3 candyPos;
 
     [Header("AI")]
     public float agroDistance;
@@ -29,7 +31,7 @@ public class Monster : MonoBehaviour
 
     void Awake()
     {
-        collider = GetComponent<CapsuleCollider>();
+        coll = GetComponent<CapsuleCollider>();
     }
 
     void Start()
@@ -41,20 +43,30 @@ public class Monster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (nextPosIndex >= waypoints.Length)
+        if (waypoints.Length > 0 && !heardCandy)
         {
-            nextPosIndex = 0;
-        }
+            if (nextPosIndex >= waypoints.Length)
+            {
+                nextPosIndex = 0;
+            }
 
-        if (waypoints.Length > 0)
-        {
             direction = waypoints[nextPosIndex].position - transform.position;
             direction.y = 0;
+        }
+        else if(heardCandy)
+        {
+            direction = candyPos - transform.position;
+            direction.y = 0;
+        }
+        else
+        {
+            direction = Vector3.zero;
         }
 
         if (CheckPlayer())
         {
-            
+            direction = player.position - transform.position;
+            direction.y = 0;
         }
 
         if(!isWaiting)
@@ -63,10 +75,10 @@ public class Monster : MonoBehaviour
 
     private bool CheckPlayer()
     {
-        Debug.DrawLine(transform.position, transform.position + (player.position - transform.position).normalized * agroDistance, Color.red);
-
-        if ((transform.position - player.position).sqrMagnitude < (agroDistance * agroDistance))
+        if ((transform.position - player.position).sqrMagnitude < (agroDistance * agroDistance) && Vector3.Dot((transform.position - player.position), transform.forward) < 0)
         {
+            Debug.DrawLine(transform.position, transform.position + (player.position - transform.position).normalized * agroDistance, Color.red);
+
             RaycastHit hit;
             if (Physics.Raycast(transform.position, (player.position - transform.position).normalized, out hit, agroDistance))
             {
@@ -77,14 +89,16 @@ public class Monster : MonoBehaviour
                 }
             }
         }
-
+    
         chasingPlayer = false;
         return false;
     }
 
     public void CandyAlert(Vector3 position)
     {
-
+        heardCandy = true;
+        candyPos = position;
+        StartCoroutine(Forget());
     }
 
     private void MonsterMove()
@@ -94,18 +108,22 @@ public class Monster : MonoBehaviour
         if (direction.sqrMagnitude <= 0.25f || ObstacleInFront())
         {
             velocity = Vector3.zero;
-            isWaiting = true;
-            StartCoroutine(WaitThenGo(waitBeforeMoving));
+            if (!heardCandy)
+            {
+                isWaiting = true;
+                StartCoroutine(WaitThenGo(waitBeforeMoving));
+            }
         }
 
         transform.position += new Vector3(velocity.x, 0, velocity.z);
-        transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+        if(direction != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
     }
 
     private bool ObstacleInFront()
     {
-        Debug.DrawLine(collider.bounds.center, collider.bounds.center + transform.forward * (collider.bounds.extents.x + 0.1f), Color.red);
-        return (Physics.Raycast(collider.bounds.center, transform.forward, collider.bounds.extents.x + 0.1f));
+        Debug.DrawLine(coll.bounds.center, coll.bounds.center + transform.forward * (coll.bounds.extents.x + 0.1f), Color.red);
+        return (Physics.Raycast(coll.bounds.center, transform.forward, coll.bounds.extents.x + 0.1f));
     }
 
     IEnumerator WaitThenGo(float waitTime)
@@ -118,5 +136,12 @@ public class Monster : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         isWaiting = false;
         StopCoroutine(WaitThenGo(0));
+    }
+
+    IEnumerator Forget()
+    {
+        yield return new WaitForSeconds(5f);
+        heardCandy = false;
+        StopCoroutine(Forget());
     }
 }
