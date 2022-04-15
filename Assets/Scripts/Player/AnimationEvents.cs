@@ -32,7 +32,7 @@ public class AnimationEvents : MonoBehaviour
 
     public void HoldingPhone()
     {
-
+        player.QuitPhone();
     }
 
     public void Death()

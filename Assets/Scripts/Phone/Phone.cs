@@ -1,50 +1,66 @@
+using System.Collections;
 using UnityEngine;
 
 public class Phone : MonoBehaviour
 {
-    private bool isInTrigger = false;
     private bool canInteract = true;
-    public GameObject interact;
-    private AudioSource source;
-    void Start()
+    private EvaManager manager;
+    private GameObject player;
+    public GameObject phone2_1;
+    public GameObject phone2_2;
+
+    private void Start()
     {
-        source = GetComponent<AudioSource>();
+        manager = FindObjectOfType<EvaManager>();
     }
 
     private void Update()
     {
-        if (isInTrigger)
+        if (Input.GetButtonDown(("Interact")) && canInteract)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            canInteract = false;
+            manager.playerScript.onPhone = true;
+            manager.playerScript.armPivot.SetActive(false);
+            if ((manager.player.transform.position - transform.position).x >= 0)
             {
-                if (canInteract)
-                {
-                    canInteract = false;
-                    interact.SetActive(false);
-                    //DO THINGS
-                    source.Play();
-                    GameManager.instance.SaveData(); //save
-                }
+                manager.playerScript.animPlayer.SetBool("FaceLeft", true);
             }
-        }
-
-        if(source.isPlaying == false)
-        {
-            canInteract = true;
+            else
+            {
+                manager.playerScript.animPlayer.SetBool("FaceLeft", false);
+            }
+            manager.playerScript.animPlayer.SetTrigger("onPhone");
+            player.transform.position = new Vector3((transform.position + transform.right * .75f).x, player.transform.position.y, transform.position.z);
+            manager.playerSpawn.position = transform.position + transform.right * .75f;
+            StartCoroutine(PhoneStuff());
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        interact.SetActive(true);
-        isInTrigger = true;
+        if (other.gameObject.CompareTag("Player"))
+        {
+            player = other.gameObject;
+            canInteract = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        canInteract = true;
-        interact.SetActive(false);
-        source.Stop();
-        isInTrigger = false;
+        if (other.gameObject.CompareTag("Player"))
+        {
+            canInteract = false;
+        }
+    }
+
+    IEnumerator PhoneStuff()
+    {
+        yield return new WaitForSeconds(.3f);
+        phone2_1.SetActive(false);
+        phone2_2.SetActive(false);
+        yield return new WaitForSeconds(3.3f);
+        phone2_1.SetActive(true);
+        phone2_2.SetActive(true);
+        StopCoroutine(PhoneStuff());
     }
 }
