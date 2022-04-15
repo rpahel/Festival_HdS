@@ -72,6 +72,7 @@ public class AudioManager : MonoBehaviour
         {
             audioSourceAmbiance[i] = gameObject.AddComponent<AudioSource>();
             audioSourceAmbiance[i].outputAudioMixerGroup = audioMixer;
+            audioSourceAmbiance[i].loop = true;
             audioSourceAmbiance[i].clip = audioClipAmbiance[i];
         }
         for (int i = 0; i < audioClipPhone.Count; i++)
@@ -103,6 +104,8 @@ public class AudioManager : MonoBehaviour
         audioSourceMenu.outputAudioMixerGroup = audioMixer;
 
         scene = SceneManager.GetActiveScene();
+
+        audioSourceAmbiance[0].Play();
     }
 
 
