@@ -11,6 +11,8 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Player : MonoBehaviour
 {
+    private bool isDead;
+
     [Header("GameManager")]
     public EvaManager manager;
 
@@ -96,6 +98,15 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
+
+        if (mainCam.fieldOfView <= 0.7f)
+        {
+            Death();
+        }
 
         if (!ventActivated)
         {
@@ -329,7 +340,7 @@ public class Player : MonoBehaviour
         if (lampStaminaBar.value <= 0)
         {
             mainCam.fieldOfView -= Time.deltaTime * zoomSpeed;
-            mainCam.transform.position = new Vector3(mainCam.transform.position.x, transform.position.y + (mainCam.fieldOfView / 32.8f) + 1 / (mainCam.fieldOfView + 0.01f), mainCam.transform.position.z);
+            mainCam.transform.position = new Vector3(transform.position.x, transform.position.y + (mainCam.fieldOfView / 32.8f) + 1 / (mainCam.fieldOfView + 0.01f), mainCam.transform.position.z);
             audioManager.CamZooming();
         }
         else
@@ -406,5 +417,16 @@ public class Player : MonoBehaviour
         playerController.enabled = true;
         armPivot.SetActive(true);
         ventActivated = false;
+    }
+
+    public void Death()
+    {
+        if (!isDead)
+        {
+            isDead = true;
+            armPivot.SetActive(false);
+            animPlayer.SetTrigger("Death");
+            Destroy(gameObject, 5f);
+        }
     }
 }

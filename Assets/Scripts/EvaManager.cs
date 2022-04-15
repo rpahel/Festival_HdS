@@ -14,6 +14,7 @@ public class EvaManager : MonoBehaviour
     public Transform playerSpawn;
     public Slider lampStaminaBar;
     public Camera mainCam;
+    private GameObject spawnedPlayer;
 
     [Header("Monsters")]
     public GameObject monster;
@@ -31,11 +32,7 @@ public class EvaManager : MonoBehaviour
 
     void Start()
     {
-        GameObject playerClone = Instantiate(player, playerSpawn.position, Quaternion.identity);
-        playerScript = playerClone.GetComponent<Player>();
-        playerScript.manager = this;
-        playerScript.lampStaminaBar = lampStaminaBar;
-        playerScript.mainCam = mainCam;
+        SpawnPlayer();
 
         for (int i = 0; i < monstersSpawn.Length; i++)
         {
@@ -83,5 +80,23 @@ public class EvaManager : MonoBehaviour
             dollClone.GetComponent<Doll>().id = i;
             dolls.Add(dollClone.GetComponent<Doll>());
         }
+    }
+
+    void FixedUpdate()
+    {
+        if (spawnedPlayer == null)
+        {
+            SpawnPlayer();
+        }
+    }
+
+    void SpawnPlayer()
+    {
+        GameObject playerClone = Instantiate(player, playerSpawn.position, Quaternion.identity);
+        playerScript = playerClone.GetComponent<Player>();
+        playerScript.manager = this;
+        playerScript.lampStaminaBar = lampStaminaBar;
+        playerScript.mainCam = mainCam;
+        spawnedPlayer = playerClone;
     }
 }

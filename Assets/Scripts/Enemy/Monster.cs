@@ -75,8 +75,18 @@ public class Monster : MonoBehaviour
             MonsterMove();
     }
 
+    void FixedUpdate()
+    {
+        if(player == null)
+            player = FindObjectOfType<Player>().gameObject.transform;
+    }
+
     private bool CheckPlayer()
     {
+        if (player == null)
+        {
+            return false;
+        }
         if ((transform.position - player.position).sqrMagnitude < (agroDistance * agroDistance) && Vector3.Dot((transform.position - player.position), transform.forward) < 0)
         {
             Debug.DrawLine(transform.position, transform.position + (player.position - transform.position).normalized * agroDistance, Color.red);
@@ -152,6 +162,7 @@ public class Monster : MonoBehaviour
         if (playerInRange)
         {
             Debug.Log("Mort");
+            manager.playerScript.Death();
         }
     }
 
