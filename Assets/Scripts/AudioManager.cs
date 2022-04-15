@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class AudioManager : MonoBehaviour
     private AudioSource[] audioSourcePhone;
     private AudioSource[] audioSourceDoll;
     private AudioSource[] audioSourceDoor;
+    private AudioSource audioSourceMenu;
 
     public AudioMixerGroup audioMixer; 
 
@@ -35,6 +37,10 @@ public class AudioManager : MonoBehaviour
     [Header("Door")]
     public List<AudioClip> audioClipDoor;
 
+    [Header("Menu")]
+    public AudioClip audioClipMenu;
+
+    private Scene scene;
     private void Awake()
     {
         if (instance == null)
@@ -45,6 +51,7 @@ public class AudioManager : MonoBehaviour
         audioSourcePhone = new AudioSource[audioClipPhone.Count];
         audioSourceDoll = new AudioSource[audioClipDoll.Count];
         audioSourceDoor = new AudioSource[audioClipDoor.Count];
+        audioSourceMenu = new AudioSource();
     }
 
     // Audio initialisation
@@ -89,6 +96,12 @@ public class AudioManager : MonoBehaviour
             audioSourceDoor[i].outputAudioMixerGroup = audioMixer;
             audioSourceDoor[i].clip = audioClipDoor[i];
         }
+
+        audioSourceMenu = gameObject.AddComponent<AudioSource>();
+        audioSourceMenu.clip = audioClipMenu;
+        audioSourceMenu.outputAudioMixerGroup = audioMixer;
+
+        scene = SceneManager.GetActiveScene();
     }
 
     #region MonsterSounds
@@ -232,6 +245,22 @@ public class AudioManager : MonoBehaviour
         {
             audioSourceDoll[0].Play();
         }
+    }
+
+    #endregion
+
+    #region MainMenuSound
+
+    private void Update()
+    {
+        if(scene.name == "MainMenu")
+            PlayMainMenuSound();   
+    }
+
+    public void PlayMainMenuSound()
+    {
+        if(!audioSourceMenu.isPlaying)
+            audioSourceMenu.Play();
     }
 
     #endregion

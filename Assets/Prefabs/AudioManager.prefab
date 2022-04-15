@@ -65,3 +65,4 @@ MonoBehaviour:
   audioClipDoor:
   - {fileID: 8300000, guid: da9a448f72a24314e8e5c6b43356df66, type: 3}
   - {fileID: 8300000, guid: 6224fec7c5ceeda408ed0f97de50a458, type: 3}
+  audioClipMenu: {fileID: 8300000, guid: 2c50ffc50b49eec43950124d623eb20f, type: 3}
