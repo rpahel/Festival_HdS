@@ -52,12 +52,8 @@ public class AudioManager : MonoBehaviour
         audioSourceDoll = new AudioSource[audioClipDoll.Count];
         audioSourceDoor = new AudioSource[audioClipDoor.Count];
         audioSourceMenu = new AudioSource();
-    }
 
-    // Audio initialisation
-    void Start()
-    {
-        for(int i = 0; i < audioClipMonstre.Count; i++)
+        for (int i = 0; i < audioClipMonstre.Count; i++)
         {
             audioSourceMonsters[i] = gameObject.AddComponent<AudioSource>();
             audioSourceMonsters[i].outputAudioMixerGroup = audioMixer;
@@ -82,6 +78,11 @@ public class AudioManager : MonoBehaviour
         {
             audioSourcePhone[i] = gameObject.AddComponent<AudioSource>();
             audioSourcePhone[i].outputAudioMixerGroup = audioMixer;
+            audioSourcePhone[i].loop = true;
+            audioSourcePhone[i].spatialBlend = 1;
+            audioSourcePhone[i].maxDistance = 15f;
+
+            audioSourcePhone[i].rolloffMode = AudioRolloffMode.Linear;
             audioSourcePhone[i].clip = audioClipPhone[i];
         }
         for (int i = 0; i < audioClipDoll.Count; i++)
@@ -103,6 +104,7 @@ public class AudioManager : MonoBehaviour
 
         scene = SceneManager.GetActiveScene();
     }
+
 
     #region MonsterSounds
     public void MonsterBreathAndWalk()
@@ -261,6 +263,24 @@ public class AudioManager : MonoBehaviour
     {
         if(!audioSourceMenu.isPlaying)
             audioSourceMenu.Play();
+    }
+
+    #endregion
+
+    #region PhoneSounds
+
+    public void PlayRingingPhone()
+    {
+        if (!audioSourcePhone[0].isPlaying)
+        {
+            audioSourcePhone[0].volume = 0.5f;
+            audioSourcePhone[0].Play();
+        }
+    }
+
+    public void StopRingingSound()
+    {
+        audioSourcePhone[0].clip = null;
     }
 
     #endregion
