@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     [Header("GameManager")]
     public EvaManager manager;
     private bool godMode;
+    [HideInInspector] public bool onPhone;
 
     [Header("Movement")]
     public float walkSpeed = 2f;
@@ -56,7 +57,6 @@ public class Player : MonoBehaviour
     private bool isLanding = false;
     private bool isCandyLanding;
 
-
     [Header("Camera")]
     public Camera mainCam;
     private float cameraXValueToKeep;
@@ -96,6 +96,12 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (onPhone)
+        {
+            lampStaminaBar.value = maxValueStamina;
+            StaminaManager();
+        }
+
         if (isDead)
         {
             return;
@@ -125,7 +131,7 @@ public class Player : MonoBehaviour
             Death();
         }
 
-        if (!ventActivated)
+        if (!ventActivated && !onPhone)
         {
             mousePos = (mainCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)) - armPivot.transform.position).normalized;
 
@@ -456,5 +462,11 @@ public class Player : MonoBehaviour
             animPlayer.SetTrigger("Death");
             Destroy(gameObject, 5f);
         }
+    }
+
+    public void QuitPhone()
+    {
+        onPhone = false;
+        armPivot.SetActive(true);
     }
 }
