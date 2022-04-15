@@ -7,6 +7,13 @@ public class AnimationEvents : MonoBehaviour
 {
     public Player player;
 
+    private AudioManager audioManager;
+
+    private void Start()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+    }
+
     public void Throw()
     {
         player.ThrowCandy();
@@ -15,6 +22,12 @@ public class AnimationEvents : MonoBehaviour
     public void Jump()
     {
         player.Jump();
+    }
+
+
+    public void LandingJump()
+    {
+        audioManager.LandingJump();
     }
 
     public void HoldingPhone()

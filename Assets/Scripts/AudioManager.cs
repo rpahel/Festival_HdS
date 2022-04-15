@@ -173,6 +173,14 @@ public class AudioManager : MonoBehaviour
     {
         audioSourcePlayer[1].Play();
     }
+
+    public void CandyLanding()
+    {
+        if (!audioSourcePlayer[2].isPlaying)
+        {
+            audioSourcePlayer[2].Play();
+        }
+    }
     #endregion
 
     #region DeathSounds

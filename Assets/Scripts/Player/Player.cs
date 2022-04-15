@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
 
     [Header("Candy throwing")]
     public GameObject candy;
+    private GameObject candyClone;
     public float throwForce;
     public float throwCooldown;
     private LineRenderer lrTraj;
@@ -49,6 +50,9 @@ public class Player : MonoBehaviour
     private Vector3 endTraj;
     private float angle;
     private bool canThrow;
+    private bool isLanding = false;
+    private bool isCandyLanding;
+
 
     [Header("Camera")]
     public Camera mainCam;
@@ -122,6 +126,27 @@ public class Player : MonoBehaviour
                 transform.position += Vector3.forward * Time.deltaTime * 1f;
             }
         }
+
+        if(candyClone != null)
+        {
+            isCandyLanding = Physics.Raycast(candyClone.transform.position, -Vector3.up, 0.2f);
+        }
+
+        if (isLanding)
+        {
+
+            if (isCandyLanding)
+            {
+                audioManager.CandyLanding();
+                StartCoroutine(SoundIsPlaying());
+            }
+        }
+    }
+
+    private IEnumerator SoundIsPlaying()
+    {
+        yield return new WaitForSeconds(0.1f);
+        isLanding = false;
     }
 
     private void MovePlayer()
@@ -247,9 +272,11 @@ public class Player : MonoBehaviour
 
     public void ThrowCandy()
     {
-        GameObject candyClone = Instantiate(candy, beginTraj, Quaternion.identity);
+        isLanding = true;
+        candyClone = Instantiate(candy, beginTraj, Quaternion.identity);
         candyClone.GetComponent<Rigidbody>().velocity = (endTraj - beginTraj).normalized * throwForce;
         audioManager.PlayThrowCandy();
+        
         Destroy(candyClone, 2f);
         StartCoroutine(Reloading());
     }
