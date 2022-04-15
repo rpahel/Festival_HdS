@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Phone : MonoBehaviour
 {
-    private bool canInteract = true;
+    private bool canInteract;
     private EvaManager manager;
     private GameObject player;
     public GameObject phone2_1;
