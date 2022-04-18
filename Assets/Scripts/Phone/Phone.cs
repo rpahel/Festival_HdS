@@ -9,6 +9,8 @@ public class Phone : MonoBehaviour
     public GameObject phone2_1;
     public GameObject phone2_2;
     private AudioManager audioManager;
+    public GameObject TriggerToDisable;
+    public Door doorToUnlock;
 
     private void Start()
     {
@@ -25,6 +27,15 @@ public class Phone : MonoBehaviour
     {
         if (Input.GetButtonDown(("Interact")) && canInteract)
         {
+            if (TriggerToDisable != null)
+            {
+                TriggerToDisable.SetActive(false);
+            }
+            if(doorToUnlock != null)
+            {
+                doorToUnlock.isLocked = false;
+            }
+
             canInteract = false;
             manager.playerScript.onPhone = true;
             manager.playerScript.armPivot.SetActive(false);
